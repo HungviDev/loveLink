@@ -1,0 +1,65 @@
+<div class="todo-page-container">
+
+  <!-- Header Bar -->
+  <div class="todo-header-bar">
+    <div class="header-text">
+      <h1 class="page-title">Couple Todo & Bucket List ✅</h1>
+      <p class="page-subtitle">Cùng nhau trải nghiệm và hoàn thành 100 điều ước nguyện lãng mạn</p>
+    </div>
+  </div>
+
+  <!-- Progress Bar Box -->
+  <div class="todo-progress-card">
+    <div class="progress-info-row">
+      <span class="prog-title">Tiến Độ Hoàn Thành Ước Nguyện 💕</span>
+      <span class="prog-val">{{ completedCount() }} / {{ totalCount() }} ({{ progressPercent() }}%)</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" [style.width.%]="progressPercent()"></div>
+    </div>
+  </div>
+
+  <!-- Add New Todo Input -->
+  <app-card title="✨ Thêm Ước Nguyện Mới (Add Bucket Item)" [hoverable]="false">
+    <div class="add-todo-row">
+      <input
+        type="text"
+        class="todo-input"
+        placeholder="Viết điều bạn muốn làm cùng người ấy (vd: Ngắm mưa sao băng...)"
+        [ngModel]="newTodoTitle()"
+        (ngModelChange)="newTodoTitle.set($event)"
+        (keyup.enter)="addTodo()"
+      />
+      <button class="add-todo-btn" (click)="addTodo()">
+        <nz-icon nzType="plus" /> Thêm Todo
+      </button>
+    </div>
+  </app-card>
+
+  <!-- Todo List Card -->
+  <app-card title="📌 Danh Sách Ước Nguyện Đôi" [hoverable]="false">
+    <div class="todos-list-group">
+      @for (item of todos(); track item.id) {
+        <div class="todo-row-item" [class.completed]="item.completed" (click)="toggleTodo(item.id)">
+          <div class="checkbox-heart">
+            @if (item.completed) {
+              <nz-icon nzType="heart" nzTheme="fill" class="heart-checked" />
+            } @else {
+              <span class="heart-unchecked"></span>
+            }
+          </div>
+
+          <div class="todo-text-group">
+            <span class="todo-title">{{ item.title }}</span>
+            <span class="todo-cat">Thẻ: {{ item.category }}</span>
+          </div>
+
+          <button class="delete-btn" (click)="$event.stopPropagation(); deleteTodo(item.id)">
+            ×
+          </button>
+        </div>
+      }
+    </div>
+  </app-card>
+
+</div>

@@ -1,0 +1,14 @@
+.love-page-header {
+  padding: 0 0 20px 0;
+
+  ::ng-deep .ant-page-header-heading-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #2d152b;
+  }
+
+  ::ng-deep .ant-page-header-heading-sub-title {
+    color: #8c7386;
+    font-size: 14px;
+  }
+}

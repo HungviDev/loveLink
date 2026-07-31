@@ -1,0 +1,9 @@
+<nz-input-group nzPrefixIcon="search" class="love-search-group">
+  <input
+    type="text"
+    nz-input
+    [placeholder]="placeholder()"
+    [ngModel]="value()"
+    (ngModelChange)="onModelChange($event)"
+  />
+</nz-input-group>

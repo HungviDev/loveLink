@@ -1,0 +1,104 @@
+<div class="couple-profile-container">
+
+  <!-- Romantic Header Banner -->
+  <div class="profile-hero-banner">
+    <div class="banner-overlay"></div>
+    <div class="hero-couple-header">
+      
+      <!-- User Profile Box -->
+      <div class="partner-card user-card">
+        <app-avatar [src]="currentUser().avatarUrl || null" [name]="currentUser().fullName || 'Alex'" size="large" status="success"></app-avatar>
+        <div class="partner-meta">
+          <span class="p-name">{{ currentUser().fullName }}</span>
+          <span class="p-role">Nam chính 💕</span>
+        </div>
+      </div>
+
+      <!-- Center Heart Union Badge -->
+      <div class="union-heart-badge">
+        <div class="heart-pulse-glow"></div>
+        <nz-icon nzType="heart" nzTheme="fill" class="heart-icon" />
+        <span class="union-days">520 Đêm Bên Nhau</span>
+      </div>
+
+      <!-- Partner Profile Box -->
+      <div class="partner-card partner-card">
+        <app-avatar [src]="partnerAvatar()" [name]="partnerName()" size="large" status="success"></app-avatar>
+        <div class="partner-meta">
+          <span class="p-name">{{ partnerName() }}</span>
+          <span class="p-role">Nữ chính 💕</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Profile Details Main Grid -->
+  <div class="profile-grid">
+
+    <!-- Left Column: Love Story Motto & Stats -->
+    <div class="grid-left">
+      <app-card title="📜 Châm Ngôn Tình Yêu (Love Motto)" [hoverable]="false">
+        <div class="motto-box">
+          <textarea
+            class="motto-textarea"
+            rows="3"
+            [ngModel]="loveMotto()"
+            (ngModelChange)="loveMotto.set($event)"
+          ></textarea>
+          <button class="save-motto-btn" (click)="saveLoveMotto()">
+            <nz-icon nzType="check" /> Lưu châm ngôn
+          </button>
+        </div>
+      </app-card>
+
+      <app-card title="✨ Thông Tin Cặp Đôi (Couple Info)" [hoverable]="false">
+        <div class="info-list-group">
+          <div class="info-row">
+            <span class="info-label">Trạng thái:</span>
+            <nz-tag nzColor="magenta">{{ relationshipStatus() }}</nz-tag>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Ngày bắt đầu yêu:</span>
+            <span class="info-val">February 14, 2023 💖</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Kỷ niệm tiếp theo:</span>
+            <span class="info-val">14 ngày nữa (2 năm) 🎂</span>
+          </div>
+        </div>
+      </app-card>
+    </div>
+
+    <!-- Right Column: Personal Cards -->
+    <div class="grid-right">
+      
+      <!-- User Bio Card -->
+      <app-card title="👤 Giới thiệu về Alex" [hoverable]="false">
+        <div class="bio-card-content">
+          <p class="bio-text">{{ userBio() }}</p>
+          <div class="tags-group">
+            @for (tag of userTags(); track tag) {
+              <nz-tag nzColor="pink">{{ tag }}</nz-tag>
+            }
+          </div>
+        </div>
+      </app-card>
+
+      <!-- Partner Bio Card -->
+      <app-card title="🌸 Giới thiệu về Sophia" [hoverable]="false">
+        <div class="bio-card-content">
+          <p class="bio-text">{{ partnerBio() }}</p>
+          <div class="tags-group">
+            @for (tag of partnerTags(); track tag) {
+              <nz-tag nzColor="purple">{{ tag }}</nz-tag>
+            }
+          </div>
+        </div>
+      </app-card>
+
+    </div>
+
+  </div>
+
+</div>

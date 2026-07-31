@@ -1,0 +1,17 @@
+@if (status()) {
+  <nz-badge [nzStatus]="status()!">
+    <nz-avatar
+      [nzSrc]="src() || ''"
+      [nzText]="name() ? name().charAt(0).toUpperCase() : 'U'"
+      [nzSize]="size()"
+      class="love-avatar"
+    />
+  </nz-badge>
+} @else {
+  <nz-avatar
+    [nzSrc]="src() || ''"
+    [nzText]="name() ? name().charAt(0).toUpperCase() : 'U'"
+    [nzSize]="size()"
+    class="love-avatar"
+  />
+}

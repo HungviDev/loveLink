@@ -1,0 +1,171 @@
+.todo-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .todo-header-bar {
+    .page-title {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      color: #3d152b;
+      margin: 0;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: #9e758a;
+      margin: 4px 0 0 0;
+    }
+  }
+
+  .todo-progress-card {
+    padding: 20px 24px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+    color: #ffffff;
+    box-shadow: 0 10px 28px rgba(255, 75, 114, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .progress-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .prog-title {
+        font-weight: 800;
+        font-size: 15px;
+      }
+
+      .prog-val {
+        font-weight: 900;
+        font-size: 14px;
+      }
+    }
+
+    .progress-bar-track {
+      height: 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+
+      .progress-bar-fill {
+        height: 100%;
+        border-radius: 10px;
+        background: #ffffff;
+        transition: width 0.4s ease;
+      }
+    }
+  }
+
+  .add-todo-row {
+    display: flex;
+    gap: 12px;
+
+    .todo-input {
+      flex: 1;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 182, 193, 0.6);
+      padding: 0 16px;
+      font-size: 14px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.8);
+
+      &:focus {
+        border-color: #ff4b72;
+      }
+    }
+
+    .add-todo-btn {
+      padding: 0 20px;
+      height: 44px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  .todos-list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .todo-row-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background: rgba(255, 240, 245, 0.4);
+      border: 1px solid rgba(255, 182, 193, 0.3);
+      cursor: pointer;
+      transition: all 0.25s ease;
+
+      .checkbox-heart {
+        font-size: 20px;
+        color: #ff4b72;
+
+        .heart-unchecked {
+          display: block;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 75, 114, 0.4);
+        }
+      }
+
+      .todo-text-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .todo-title {
+          font-weight: 700;
+          font-size: 14px;
+          color: #3d152b;
+        }
+
+        .todo-cat {
+          font-size: 11px;
+          color: #9e758a;
+        }
+      }
+
+      .delete-btn {
+        border: none;
+        background: transparent;
+        font-size: 20px;
+        color: #9e758a;
+        cursor: pointer;
+
+        &:hover {
+          color: #e63962;
+        }
+      }
+
+      &.completed {
+        background: rgba(82, 196, 26, 0.06);
+        border-color: rgba(82, 196, 26, 0.3);
+
+        .todo-title {
+          text-decoration: line-through;
+          opacity: 0.7;
+        }
+      }
+
+      &:hover {
+        transform: translateX(4px);
+      }
+    }
+  }
+}

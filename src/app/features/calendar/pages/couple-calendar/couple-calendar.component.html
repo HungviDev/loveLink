@@ -1,0 +1,43 @@
+<div class="calendar-page-container">
+
+  <!-- Header Bar -->
+  <div class="calendar-header-bar">
+    <div class="header-text">
+      <h1 class="page-title">Couple Calendar 📅</h1>
+      <p class="page-subtitle">Lịch theo dõi các ngày lễ kỷ niệm và lịch hẹn lãng mạn sắp tới</p>
+    </div>
+  </div>
+
+  <div class="calendar-main-grid">
+    
+    <!-- Left Column: Ng-Zorro Interactive Calendar -->
+    <div class="grid-left">
+      <app-card title="🗓️ Lịch Ngày Đôi" [hoverable]="true">
+        <div class="custom-calendar-box">
+          <nz-calendar [(ngModel)]="selectedDate"></nz-calendar>
+        </div>
+      </app-card>
+    </div>
+
+    <!-- Right Column: Upcoming Important Dates -->
+    <div class="grid-right">
+      <app-card title="🎉 Sự Kiện Quan Trọng Sắp Tới" [hoverable]="false">
+        <div class="events-list">
+          @for (ev of upcomingEvents(); track ev.title) {
+            <div class="event-card-item">
+              <div class="event-date-badge">{{ ev.date }}</div>
+              <div class="event-info">
+                <span class="ev-title">{{ ev.title }}</span>
+                <nz-tag [nzColor]="ev.type === 'anniversary' ? 'magenta' : ev.type === 'birthday' ? 'purple' : 'blue'">
+                  {{ ev.type === 'anniversary' ? 'Kỷ niệm 💖' : ev.type === 'birthday' ? 'Sinh nhật 🎂' : 'Hò hẹn 🍷' }}
+                </nz-tag>
+              </div>
+            </div>
+          }
+        </div>
+      </app-card>
+    </div>
+
+  </div>
+
+</div>

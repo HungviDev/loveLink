@@ -1,1 +1,205 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'ng-zorro-antd/ng-zorro-antd.css';
+
+:root {
+  --primary-pink: #ff4b72;
+  --primary-pink-hover: #e63962;
+  --secondary-pink: #ff758c;
+  --rose-accent: #ff8efa;
+  --soft-pink-bg: #fff0f5;
+  --dark-pink-text: #3d152b;
+  --muted-pink-text: #9e758a;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 182, 193, 0.5);
+  --glass-shadow: 0 12px 40px rgba(255, 75, 114, 0.12);
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+}
+
+/* Theme 1: Rose Romance (Default) */
+body.theme-rose {
+  background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 35%, #ffd6e5 70%, #ffc2d1 100%) !important;
+  color: #3d152b;
+}
+
+/* Theme 2: Midnight Passion (Dark Velvet) */
+body.theme-midnight {
+  background: linear-gradient(135deg, #160815 0%, #260822 40%, #1a0218 80%, #0d000e 100%) !important;
+  color: #fce7f3;
+
+  .main-layout-container {
+    background: transparent !important;
+  }
+
+  .sidebar-navigation, .top-header {
+    background: rgba(25, 10, 24, 0.85) !important;
+    border-color: rgba(255, 75, 114, 0.25) !important;
+
+    .brand-title, .user-name, .card-title {
+      color: #ffffff !important;
+    }
+
+    ::ng-deep .ant-menu-item {
+      color: #e8bdcb !important;
+
+      &:hover {
+        background: rgba(255, 75, 114, 0.18) !important;
+        color: #ff758c !important;
+      }
+    }
+  }
+
+  .stat-card-inner {
+    background: rgba(35, 14, 33, 0.82) !important;
+    border-color: rgba(255, 75, 114, 0.3) !important;
+    
+    .stat-label { color: #d4a3b8 !important; }
+    .stat-value { color: #ffffff !important; }
+  }
+
+  .app-card {
+    background: rgba(35, 14, 33, 0.82) !important;
+    border-color: rgba(255, 75, 114, 0.3) !important;
+    color: #ffffff !important;
+
+    .card-title { color: #ffffff !important; }
+  }
+
+  .milestone-item {
+    background: rgba(45, 18, 42, 0.6) !important;
+    border-color: rgba(255, 75, 114, 0.25) !important;
+
+    .milestone-title { color: #ffffff !important; }
+    .milestone-date { color: #c99db0 !important; }
+  }
+
+  .today-heartbeat-card {
+    background: linear-gradient(135deg, #2b0b27 0%, #1f051c 100%) !important;
+    border-color: rgba(255, 75, 114, 0.4) !important;
+
+    .card-icon-title, .heartbeat-desc { color: #fce7f3 !important; }
+  }
+}
+
+/* Theme 3: Sunset Glow */
+body.theme-sunset {
+  background: linear-gradient(135deg, #fff4ee 0%, #ffe3d6 35%, #ffd2c7 70%, #ffb6be 100%) !important;
+  color: #3b171e;
+}
+
+/* Theme 4: Aurora Dream */
+body.theme-aurora {
+  background: linear-gradient(135deg, #f5edff 0%, #ffeef2 35%, #e8eafc 70%, #ffd9ea 100%) !important;
+  color: #2b173b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-sans);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  transition: background 0.5s ease-in-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 220, 230, 0.4);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff758c 0%, #ff4b72 100%);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff4b72;
+}
+
+/* Global Ng-Zorro Overrides for Romantic Pink Theme */
+.ant-btn-primary {
+  background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%) !important;
+  border: none !important;
+  box-shadow: 0 6px 18px rgba(255, 75, 114, 0.35) !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+
+  &:hover {
+    background: linear-gradient(135deg, #e63962 0%, #ff5e7a 100%) !important;
+    box-shadow: 0 8px 24px rgba(255, 75, 114, 0.45) !important;
+    transform: translateY(-1px);
+  }
+}
+
+.ant-tag-magenta {
+  background: rgba(255, 75, 114, 0.12) !important;
+  border-color: rgba(255, 75, 114, 0.3) !important;
+  color: #ff4b72 !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  padding: 2px 10px !important;
+}
+
+.ant-tag-volcano {
+  background: rgba(255, 117, 140, 0.15) !important;
+  border-color: rgba(255, 117, 140, 0.4) !important;
+  color: #e63962 !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  padding: 2px 10px !important;
+}
+
+/* Custom User Dropdown Menu Overrides */
+.custom-user-dropdown {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 182, 193, 0.6) !important;
+  border-radius: 18px !important;
+  padding: 8px !important;
+  box-shadow: 0 12px 36px rgba(255, 75, 114, 0.18) !important;
+  overflow: hidden;
+  min-width: 180px;
+
+  .ant-dropdown-menu-item {
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    color: #3d152b !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    transition: all 0.2s ease !important;
+
+    .anticon {
+      font-size: 16px !important;
+      color: #ff4b72 !important;
+    }
+
+    &:hover {
+      background: rgba(255, 75, 114, 0.08) !important;
+      color: #ff4b72 !important;
+      transform: translateX(2px);
+    }
+
+    &.logout-item {
+      color: #e63962 !important;
+
+      &:hover {
+        background: rgba(230, 57, 98, 0.1) !important;
+        color: #ff1a4b !important;
+      }
+    }
+  }
+
+  .ant-dropdown-menu-item-divider {
+    background-color: rgba(255, 182, 193, 0.4) !important;
+    margin: 6px 4px !important;
+  }
+}

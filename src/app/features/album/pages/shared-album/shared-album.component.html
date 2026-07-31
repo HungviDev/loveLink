@@ -1,0 +1,69 @@
+<div class="album-page-container">
+
+  <!-- Header Bar -->
+  <div class="album-header-bar">
+    <div class="header-text">
+      <h1 class="page-title">Shared Album 🖼️</h1>
+      <p class="page-subtitle">Thư viện ảnh chung ghi lại những nụ cười và góc nhìn yêu thương</p>
+    </div>
+
+    <button class="upload-photo-btn">
+      <nz-icon nzType="camera" /> Tải Ảnh Mới 📸
+    </button>
+  </div>
+
+  <!-- Category Filter Chips Bar -->
+  <div class="category-filter-bar">
+    @for (cat of categories; track cat.key) {
+      <button
+        class="filter-chip"
+        [class.active]="selectedCategory() === cat.key"
+        (click)="selectCategory(cat.key)"
+      >
+        {{ cat.label }}
+      </button>
+    }
+  </div>
+
+  <!-- Photo Masonry Grid -->
+  <div class="photos-grid">
+    @for (photo of photos(); track photo.id) {
+      @if (selectedCategory() === 'all' || selectedCategory() === photo.albumCategory) {
+        <div class="photo-card-item" (click)="openPreview(photo)">
+          <img [src]="photo.url" [alt]="photo.title" class="photo-img" />
+          <div class="photo-card-overlay">
+            <span class="photo-title">{{ photo.title }}</span>
+            <div class="photo-footer-row">
+              <span class="photo-date">{{ photo.date }}</span>
+              <button class="like-btn" (click)="likePhoto(photo, $event)">
+                ❤️ {{ photo.likes }}
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- Lightbox Preview Modal -->
+  @if (selectedPhoto()) {
+    <nz-modal
+      [nzVisible]="true"
+      [nzFooter]="null"
+      (nzOnCancel)="closePreview()"
+      nzWidth="720px"
+      nzTitle="View Photo Details"
+    >
+      <ng-container *nzModalContent>
+        <div class="photo-lightbox-modal">
+          <img [src]="selectedPhoto()?.url" [alt]="selectedPhoto()?.title" class="lightbox-img" />
+          <div class="lightbox-meta">
+            <h3>{{ selectedPhoto()?.title }}</h3>
+            <p>Ngày chụp: {{ selectedPhoto()?.date }}</p>
+          </div>
+        </div>
+      </ng-container>
+    </nz-modal>
+  }
+
+</div>

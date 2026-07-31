@@ -1,0 +1,8 @@
+.love-empty {
+  padding: 30px;
+  text-align: center;
+
+  ::ng-deep .ant-empty-image {
+    opacity: 0.8;
+  }
+}

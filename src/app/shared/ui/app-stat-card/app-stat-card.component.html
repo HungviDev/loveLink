@@ -1,0 +1,14 @@
+<div class="stat-card-inner">
+  <div class="stat-icon-wrapper" [style.background-color]="color() + '18'" [style.color]="color()">
+    <nz-icon [nzType]="icon()" nzTheme="fill" />
+  </div>
+  <div class="stat-content">
+    <span class="stat-label">{{ title() }}</span>
+    <div class="stat-value-box">
+      <span class="stat-value">{{ value() }}</span>
+      @if (unit()) {
+        <span class="stat-unit">{{ unit() }}</span>
+      }
+    </div>
+  </div>
+</div>

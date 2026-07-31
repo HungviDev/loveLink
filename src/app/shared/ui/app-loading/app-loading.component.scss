@@ -1,0 +1,17 @@
+.love-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  width: 100%;
+
+  ::ng-deep .ant-spin-dot-item {
+    background-color: #ff4b72;
+  }
+
+  ::ng-deep .ant-spin-text {
+    color: #ff4b72;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+}

@@ -1,0 +1,53 @@
+<form nz-form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="register-form-box">
+  @if (errorMessage()) {
+    <div class="error-alert">
+      <nz-icon nzType="close-circle" nzTheme="fill" />
+      <span>{{ errorMessage() }}</span>
+    </div>
+  }
+
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please enter your full name">
+      <nz-input-group nzPrefixIcon="user" class="custom-input-group">
+        <input type="text" nz-input formControlName="fullName" placeholder="Full name" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input a valid email address!">
+      <nz-input-group nzPrefixIcon="mail" class="custom-input-group">
+        <input type="email" nz-input formControlName="email" placeholder="Email address" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Password must be at least 6 characters">
+      <nz-input-group nzPrefixIcon="lock" class="custom-input-group">
+        <input type="password" nz-input formControlName="password" placeholder="Password" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-date-picker
+        formControlName="relationshipStartDate"
+        nzPlaceHolder="Relationship Start Date (Optional)"
+        class="custom-date-picker"
+      ></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div class="submit-action">
+    <app-button
+      type="primary"
+      [block]="true"
+      [loading]="loading()"
+      size="large"
+    >
+      Create Couple Account
+    </app-button>
+  </div>
+</form>

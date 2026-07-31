@@ -1,0 +1,140 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzFooter]="null"
+  [nzClosable]="false"
+  [nzMaskClosable]="false"
+  nzCentered
+  nzWidth="540px"
+  nzClassName="pairing-modal-dialog"
+>
+  <ng-container *nzModalContent>
+    <div class="pairing-modal-body">
+      <!-- STEP 1: INTRO ONBOARDING -->
+      @if (currentStep() === 'intro') {
+        <div class="step-container step-intro animate-fade-in">
+          <div class="hero-icon-wrapper">
+            <div class="pulse-aura"></div>
+            <span class="main-heart-icon">💖</span>
+          </div>
+
+          <h2 class="modal-title">Chào mừng đến với LoveLink! 💕</h2>
+          <p class="modal-desc">
+            Nơi kết nối hai trái tim, cùng nhau đếm từng ngày yêu, lưu giữ những cột mốc ngọt ngào và chia sẻ khoảnh khắc lãng mạn.
+          </p>
+
+          <div class="features-preview-row">
+            <div class="feature-chip">
+              <span class="chip-emoji">📅</span>
+              <span>Đếm ngày yêu</span>
+            </div>
+            <div class="feature-chip">
+              <span class="chip-emoji">📸</span>
+              <span>Album kỷ niệm</span>
+            </div>
+            <div class="feature-chip">
+              <span class="chip-emoji">💬</span>
+              <span>Trò chuyện đôi</span>
+            </div>
+          </div>
+
+          <button class="primary-gradient-btn" (click)="nextStep()">
+            <span>Bắt đầu kết nối người ấy</span>
+            <nz-icon nzType="right" />
+          </button>
+        </div>
+      }
+
+      <!-- STEP 2: PAIR CODE DIALOG -->
+      @if (currentStep() === 'code') {
+        <div class="step-container step-code animate-fade-in">
+          <div class="modal-header-compact">
+            <div class="badge-icon-small">
+              <nz-icon nzType="heart" nzTheme="fill" />
+            </div>
+            <span class="compact-title">Kết Nối Mã Yêu Thương</span>
+          </div>
+
+          <div class="my-code-card">
+            <span class="card-label">Mã của bạn (gửi cho người ấy):</span>
+            <div class="code-copy-box">
+              <span class="code-text">{{ myPairCode() }}</span>
+              <button class="copy-btn" (click)="copyMyCode()">
+                <nz-icon nzType="copy" /> Sao chép
+              </button>
+            </div>
+          </div>
+
+          <div class="partner-code-section">
+            <label class="input-label">Nhập mã kết nối từ người ấy:</label>
+            <div class="input-action-wrapper">
+              <input
+                type="text"
+                class="custom-code-input"
+                placeholder="Ví dụ: LOVE68..."
+                [ngModel]="pairCodeInput()"
+                (ngModelChange)="pairCodeInput.set($event)"
+                (keyup.enter)="verifyCode()"
+              />
+              <button class="quick-fill-btn" (click)="useSampleCode()" nz-tooltip nzTooltipTitle="Nhấp để điền mã mẫu LOVE68">
+                Dùng mã: LOVE68
+              </button>
+            </div>
+
+            @if (errorMessage()) {
+              <div class="error-banner animate-shake">
+                <nz-icon nzType="close-circle" nzTheme="fill" />
+                <span>{{ errorMessage() }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="modal-actions-row">
+            <button
+              class="primary-gradient-btn full-width"
+              [disabled]="isVerifying()"
+              (click)="verifyCode()"
+            >
+              @if (isVerifying()) {
+                <nz-icon nzType="loading" />
+                <span>Đang xác minh...</span>
+              } @else {
+                <span>Xác nhận kết nối ❤️</span>
+              }
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- STEP 3: SUCCESS CELEBRATION -->
+      @if (currentStep() === 'success') {
+        <div class="step-container step-success animate-pop">
+          <div class="confetti-burst">
+            <span>✨</span><span>🎉</span><span>💖</span><span>🌸</span>
+          </div>
+
+          <div class="success-heart-badge">
+            <nz-icon nzType="check-circle" nzTheme="fill" class="check-icon" />
+          </div>
+
+          <h2 class="modal-title">Kết Nối Thành Công! 🎉</h2>
+          <p class="modal-desc">
+            Bạn và <strong>{{ partnerName }}</strong> đã chính thức kết nối thành công trên LoveLink.
+          </p>
+
+          <div class="coupled-avatars-card">
+            <div class="couple-avatar-pair">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" class="c-avatar" alt="Alex" />
+              <div class="c-heart-center">❤️</div>
+              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80" class="c-avatar" alt="Sophia" />
+            </div>
+            <span class="coupled-label">Alex Vance 💕 Sophia Miller</span>
+          </div>
+
+          <button class="primary-gradient-btn" (click)="completePairing()">
+            <span>Vào Dashboard ngay ✨</span>
+          </button>
+        </div>
+      }
+    </div>
+  </ng-container>
+</nz-modal>

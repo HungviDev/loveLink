@@ -1,0 +1,268 @@
+<nz-layout class="main-layout-container">
+  <div class="ambient-pink-glow backdrop-blur"></div>
+
+  <!-- Couple Onboarding & Pair Code Modal Dialog -->
+  @if (showPairingModal()) {
+    <app-couple-pairing-modal (pairedSuccess)="onPairingSuccess()"></app-couple-pairing-modal>
+  }
+
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzWidth="260px" class="sidebar-navigation">
+    <div class="logo-box">
+      <div class="heart-pulse-badge">
+        <nz-icon nzType="heart" nzTheme="fill" class="heart-brand-icon" />
+      </div>
+      @if (!isCollapsed()) {
+      <div class="brand-text-group">
+        <span class="brand-title">LoveLink</span>
+        <span class="brand-subtitle">Together Forever</span>
+      </div>
+      }
+    </div>
+
+    <ul nz-menu nzMode="inline" class="side-menu">
+      <li nz-menu-item routerLink="/dashboard" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+        <nz-badge [nzCount]="badgeService.badges().dashboard" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
+          <nz-icon nzType="appstore" nzTheme="fill" class="menu-nav-icon icon-dashboard" />
+        </nz-badge>
+        <span class="menu-label-text">Dashboard</span>
+        @if (!isCollapsed() && badgeService.badges().dashboard > 0) {
+          <span class="menu-badge-pill">{{ badgeService.badges().dashboard }}</span>
+        }
+      </li>
+      <li nz-menu-item routerLink="/couple" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+        <nz-badge [nzCount]="badgeService.badges().couple" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
+          <nz-icon nzType="heart" nzTheme="fill" class="menu-nav-icon icon-couple" />
+        </nz-badge>
+        <span class="menu-label-text">Couple Profile</span>
+        @if (!isCollapsed() && badgeService.badges().couple > 0) {
+          <span class="menu-badge-pill">{{ badgeService.badges().couple }}</span>
+        }
+      </li>
+      <li nz-menu-item routerLink="/timeline" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+        <nz-badge [nzCount]="badgeService.badges().timeline" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
+          <nz-icon nzType="compass" nzTheme="fill" class="menu-nav-icon icon-timeline" />
+        </nz-badge>
+        <span class="menu-label-text">Love Timeline</span>
+        @if (!isCollapsed() && badgeService.badges().timeline > 0) {
+          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().timeline }}</span>
+        }
+      </li>
+      <li nz-menu-item routerLink="/album" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+        <nz-badge [nzCount]="badgeService.badges().album" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
+          <nz-icon nzType="picture" nzTheme="fill" class="menu-nav-icon icon-album" />
+        </nz-badge>
+        <span class="menu-label-text">Shared Album</span>
+        @if (!isCollapsed() && badgeService.badges().album > 0) {
+          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().album }}</span>
+        }
+      </li>
+      <li nz-menu-item routerLink="/chat" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+        <nz-badge [nzCount]="badgeService.badges().chat" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
+          <nz-icon nzType="message" nzTheme="fill" class="menu-nav-icon icon-chat" />
+        </nz-badge>
+        <span class="menu-label-text">Love Chat</span>
+        @if (!isCollapsed() && badgeService.badges().chat > 0) {
+          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().chat }}</span>
+        }
+      </li>
+      <li nz-menu-item routerLink="/todo" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+        <nz-badge [nzCount]="badgeService.badges().todo" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
+          <nz-icon nzType="check-circle" nzTheme="fill" class="menu-nav-icon icon-todo" />
+        </nz-badge>
+        <span class="menu-label-text">Couple Todo</span>
+        @if (!isCollapsed() && badgeService.badges().todo > 0) {
+          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().todo }}</span>
+        }
+      </li>
+      <li nz-menu-item routerLink="/calendar" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+        <nz-badge [nzCount]="badgeService.badges().calendar" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
+          <nz-icon nzType="calendar" nzTheme="fill" class="menu-nav-icon icon-calendar" />
+        </nz-badge>
+        <span class="menu-label-text">Calendar</span>
+        @if (!isCollapsed() && badgeService.badges().calendar > 0) {
+          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().calendar }}</span>
+        }
+      </li>
+    </ul>
+
+    @if (!isCollapsed()) {
+    <div class="sidebar-footer-card">
+      <nz-icon nzType="gift" nzTheme="fill" class="gift-icon" />
+      <div class="footer-card-text">
+        <span class="card-title">Next Anniversary</span>
+        <span class="card-sub">In 14 Days ❤️</span>
+      </div>
+    </div>
+    }
+  </nz-sider>
+
+  <nz-layout class="inner-layout">
+    <nz-header class="top-header">
+      <div class="header-left">
+        <div class="trigger-btn" (click)="toggleCollapsed()">
+          <nz-icon [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'" />
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Notification Bell Center Dropdown -->
+        <div class="notification-switcher-btn" nz-dropdown [nzDropdownMenu]="notifDropdown" nzTrigger="click" nzTooltipTitle="Cập nhật mới" nz-tooltip>
+          <nz-badge [nzCount]="badgeService.totalCount()" [nzOverflowCount]="99" [nzStyle]="{ backgroundColor: '#ff4b72', boxShadow: '0 2px 8px rgba(255, 75, 114, 0.4)' }">
+            <nz-icon nzType="bell" nzTheme="outline" class="bell-icon" />
+          </nz-badge>
+        </div>
+
+        <nz-dropdown-menu #notifDropdown="nzDropdownMenu">
+          <div class="custom-notification-panel">
+            <div class="panel-header">
+              <div class="title-group">
+                <nz-icon nzType="bell" class="header-bell-icon" />
+                <span>Thông báo & Cập nhật mới</span>
+              </div>
+              @if (badgeService.totalCount() > 0) {
+                <button class="clear-all-link" (click)="clearAllBadges()">Đánh dấu đã đọc</button>
+              }
+            </div>
+
+            <div class="panel-body">
+              @if (badgeService.totalCount() === 0) {
+                <div class="empty-notif-state">
+                  <nz-icon nzType="check-circle" nzTheme="fill" class="empty-icon" />
+                  <span class="empty-title">Bạn đã xem hết tin mới!</span>
+                  <span class="empty-sub">Không có thông báo chưa đọc nào</span>
+                </div>
+              } @else {
+                @if (badgeService.badges().chat > 0) {
+                  <div class="notif-card-item" routerLink="/chat">
+                    <div class="item-icon-avatar chat-style">
+                      <nz-icon nzType="message" />
+                    </div>
+                    <div class="item-info">
+                      <div class="item-desc"><strong>{{ badgeService.badges().chat }}</strong> tin nhắn mới chưa đọc từ người yêu</div>
+                      <span class="item-category">Love Chat</span>
+                    </div>
+                  </div>
+                }
+                @if (badgeService.badges().album > 0) {
+                  <div class="notif-card-item" routerLink="/album">
+                    <div class="item-icon-avatar album-style">
+                      <nz-icon nzType="picture" />
+                    </div>
+                    <div class="item-info">
+                      <div class="item-desc"><strong>{{ badgeService.badges().album }}</strong> khoảnh khắc mới trong Album</div>
+                      <span class="item-category">Shared Album</span>
+                    </div>
+                  </div>
+                }
+                @if (badgeService.badges().todo > 0) {
+                  <div class="notif-card-item" routerLink="/todo">
+                    <div class="item-icon-avatar todo-style">
+                      <nz-icon nzType="check-circle" />
+                    </div>
+                    <div class="item-info">
+                      <div class="item-desc"><strong>{{ badgeService.badges().todo }}</strong> công việc đôi mới tạo</div>
+                      <span class="item-category">Couple Todo</span>
+                    </div>
+                  </div>
+                }
+                @if (badgeService.badges().timeline > 0) {
+                  <div class="notif-card-item" routerLink="/timeline">
+                    <div class="item-icon-avatar timeline-style">
+                      <nz-icon nzType="compass" />
+                    </div>
+                    <div class="item-info">
+                      <div class="item-desc"><strong>{{ badgeService.badges().timeline }}</strong> cột mốc kỉ niệm mới</div>
+                      <span class="item-category">Love Timeline</span>
+                    </div>
+                  </div>
+                }
+                @if (badgeService.badges().calendar > 0) {
+                  <div class="notif-card-item" routerLink="/calendar">
+                    <div class="item-icon-avatar calendar-style">
+                      <nz-icon nzType="calendar" />
+                    </div>
+                    <div class="item-info">
+                      <div class="item-desc"><strong>{{ badgeService.badges().calendar }}</strong> sự kiện ngày kỉ niệm sắp diễn ra</div>
+                      <span class="item-category">Calendar</span>
+                    </div>
+                  </div>
+                }
+              }
+            </div>
+
+            <div class="panel-footer">
+              <button class="simulate-notif-btn" (click)="simulateNewUpdate()">
+                <nz-icon nzType="plus-circle" /> Thêm thông báo giả lập
+              </button>
+            </div>
+          </div>
+        </nz-dropdown-menu>
+
+        <!-- Theme Background Switcher Button -->
+        <div class="theme-switcher-btn" nz-dropdown [nzDropdownMenu]="themeDropdown" nzTrigger="click" nzTooltipTitle="Switch Background Theme" nz-tooltip>
+          <span class="theme-active-dot" [style.background]="activeTheme() === 'rose' ? '#ff4b72' : activeTheme() === 'midnight' ? '#ff007f' : activeTheme() === 'sunset' ? '#ff6b81' : '#a855f7'"></span>
+          <nz-icon nzType="bg-colors" nzTheme="outline" class="palette-icon" />
+        </div>
+
+        <nz-dropdown-menu #themeDropdown="nzDropdownMenu">
+          <div class="custom-theme-picker-menu">
+            <div class="picker-header">
+              <nz-icon nzType="bg-colors" />
+              <span>Select Background Theme</span>
+            </div>
+            <div class="theme-options-list">
+              @for (item of themeService.themes; track item.id) {
+                <div 
+                  class="theme-option-card" 
+                  [class.selected]="activeTheme() === item.id"
+                  (click)="selectTheme(item.id)"
+                >
+                  <div class="theme-color-swatch" [style.background]="item.gradient"></div>
+                  <span class="theme-name">{{ item.name }}</span>
+                  @if (activeTheme() === item.id) {
+                    <nz-icon nzType="check" class="check-icon" />
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </nz-dropdown-menu>
+
+        @if (currentUser()) {
+        <div class="user-profile-menu" nz-dropdown [nzDropdownMenu]="userDropdown">
+          <app-avatar [src]="currentUser().avatarUrl || null" [name]="currentUser().fullName || 'User'" size="large"
+            status="success"></app-avatar>
+          <div class="user-info-text">
+            <span class="user-name">{{ currentUser().fullName }}</span>
+            <span class="user-status-label">In a Relationship 💕</span>
+          </div>
+          <nz-icon nzType="down" class="dropdown-arrow" />
+        </div>
+        }
+        <nz-dropdown-menu #userDropdown="nzDropdownMenu">
+          <ul nz-menu class="custom-user-dropdown">
+            <li nz-menu-item routerLink="/couple">
+              <nz-icon nzType="user" /> Partner Profile
+            </li>
+            <li nz-menu-item (click)="openPairingModal()">
+              <nz-icon nzType="link" /> Mã kết nối đôi
+            </li>
+            <li nz-menu-divider></li>
+            <li nz-menu-item (click)="logout()" class="logout-item">
+              <nz-icon nzType="logout" /> Logout
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </nz-header>
+
+    <nz-content class="main-content-area">
+      <div class="page-body">
+        <router-outlet></router-outlet>
+      </div>
+
+      <!-- Floating Draggable AI Emotional Counseling Assistant Widget -->
+      <app-couple-ai-assistant></app-couple-ai-assistant>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

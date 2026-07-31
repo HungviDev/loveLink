@@ -1,0 +1,639 @@
+.dashboard-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  /* Fullscreen Virtual Hug Heart Burst Effect */
+  .heart-burst-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+
+    .burst-heart {
+      position: absolute;
+      font-size: 48px;
+      animation: explodeUp 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+      &.h1 { left: 20%; bottom: 0; animation-delay: 0s; }
+      &.h2 { left: 40%; bottom: 0; animation-delay: 0.2s; font-size: 64px; }
+      &.h3 { left: 50%; bottom: 0; animation-delay: 0.1s; font-size: 56px; }
+      &.h4 { left: 65%; bottom: 0; animation-delay: 0.3s; }
+      &.h5 { left: 80%; bottom: 0; animation-delay: 0.15s; font-size: 60px; }
+      &.h6 { left: 30%; bottom: 0; animation-delay: 0.25s; }
+      &.h7 { left: 10%; bottom: 0; animation-delay: 0.35s; }
+      &.h8 { left: 90%; bottom: 0; animation-delay: 0.05s; }
+    }
+  }
+
+  .dashboard-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      color: #3d152b;
+      margin: 0;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: #9e758a;
+      margin: 4px 0 0 0;
+    }
+
+    .connection-status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(82, 196, 26, 0.1);
+      border: 1px solid rgba(82, 196, 26, 0.3);
+      border-radius: 20px;
+      color: #389e0d;
+      font-size: 12px;
+      font-weight: 700;
+
+      .status-dot-animated {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #52c41a;
+        box-shadow: 0 0 8px #52c41a;
+        animation: pulseGreen 1.6s infinite;
+      }
+    }
+  }
+
+  /* Hero Couple Card */
+  .hero-couple-card {
+    position: relative;
+    padding: 36px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #ff4b72 0%, #ff758c 50%, #ff8efa 100%);
+    box-shadow: 0 16px 48px rgba(255, 75, 114, 0.3);
+    color: #ffffff;
+    overflow: hidden;
+
+    .floating-heart {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0.7;
+      animation: floatSway 4s ease-in-out infinite alternate;
+
+      &.heart-1 { top: 15%; left: 8%; animation-delay: 0s; }
+      &.heart-2 { bottom: 20%; left: 12%; animation-delay: 1s; }
+      &.heart-3 { top: 25%; right: 10%; animation-delay: 2s; }
+      &.heart-4 { bottom: 15%; right: 15%; animation-delay: 1.5s; }
+    }
+
+    .hero-card-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .couple-avatars-row {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+
+      .avatar-with-name {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+
+        .avatar-name {
+          font-weight: 700;
+          font-size: 15px;
+        }
+
+        .mood-tag-mini {
+          font-size: 11px;
+          padding: 2px 10px;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.25);
+          backdrop-filter: blur(8px);
+          font-weight: 700;
+        }
+      }
+
+      .heart-center-connector {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+        .connector-pulse-ring {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 255, 255, 0.8);
+          animation: auraExpand 2s infinite;
+        }
+
+        .pulse-heart-icon {
+          font-size: 24px;
+          color: #ff4b72;
+          animation: heartBeat 1.4s infinite;
+        }
+      }
+    }
+
+    .days-together-counter {
+      position: relative;
+      padding: 16px 36px;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+
+      .shimmer-sweeper {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: shimmerSweep 3s infinite;
+      }
+
+      .days-number {
+        font-size: 32px;
+        font-weight: 900;
+        font-family: 'Outfit', sans-serif;
+        letter-spacing: -0.5px;
+      }
+
+      .since-date {
+        font-size: 12px;
+        opacity: 0.9;
+        font-weight: 600;
+      }
+    }
+
+    /* Live Anniversary Countdown Timer */
+    .anniversary-live-countdown {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 20px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.12);
+
+      .timer-label {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .timer-boxes {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        .colon {
+          font-weight: 900;
+          opacity: 0.8;
+        }
+
+        .t-box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.25);
+          padding: 2px 8px;
+          border-radius: 8px;
+          min-width: 36px;
+
+          .num {
+            font-size: 14px;
+            font-weight: 900;
+            line-height: 1.1;
+          }
+
+          .lbl {
+            font-size: 9px;
+            text-transform: uppercase;
+            opacity: 0.85;
+            font-weight: 700;
+          }
+        }
+      }
+    }
+
+    .daily-love-quote {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.15);
+      font-style: italic;
+      font-size: 13px;
+    }
+  }
+
+  /* Interactive Couple Mood Switcher Card */
+  .couple-mood-selector-card {
+    padding: 18px 24px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 182, 193, 0.5);
+    box-shadow: 0 8px 24px rgba(255, 75, 114, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .card-title-row {
+      display: flex;
+      flex-direction: column;
+
+      .selector-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: #3d152b;
+      }
+
+      .selector-sub {
+        font-size: 12px;
+        color: #9e758a;
+      }
+    }
+
+    .mood-chips-group {
+      display: flex;
+      gap: 10px;
+
+      .mood-chip-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 182, 193, 0.5);
+        background: rgba(255, 240, 245, 0.6);
+        cursor: pointer;
+        transition: all 0.25s ease;
+
+        .m-emoji { font-size: 16px; }
+        .m-label { font-size: 12px; font-weight: 700; color: #6d425a; }
+
+        &:hover {
+          background: rgba(255, 75, 114, 0.12);
+          transform: translateY(-2px);
+        }
+
+        &.active {
+          background: var(--chip-accent, #ff4b72);
+          border-color: var(--chip-accent, #ff4b72);
+          box-shadow: 0 4px 14px rgba(255, 75, 114, 0.3);
+
+          .m-label { color: #ffffff; }
+        }
+      }
+    }
+  }
+
+  /* Stat Cards Grid */
+  .stat-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* Main Grid Section */
+  .dashboard-main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+
+    .grid-left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .grid-right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+
+  /* Milestones List */
+  .milestones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .milestone-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background: rgba(255, 240, 245, 0.4);
+      border: 1px solid rgba(255, 182, 193, 0.3);
+      transition: all 0.25s ease;
+
+      &:hover {
+        background: rgba(255, 75, 114, 0.08);
+        transform: translateX(6px);
+      }
+
+      .milestone-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-right: 14px;
+
+        &.trophy { background: rgba(255, 75, 114, 0.12); color: #ff4b72; }
+        &.house { background: rgba(255, 117, 140, 0.15); color: #e63962; }
+        &.trip { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+      }
+
+      .milestone-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .milestone-title {
+          font-weight: 700;
+          font-size: 14px;
+          color: #3d152b;
+        }
+
+        .milestone-date {
+          font-size: 12px;
+          color: #9e758a;
+        }
+      }
+    }
+  }
+
+  /* Secret Sticky Love Notes Board */
+  .sticky-notes-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .note-input-row {
+      display: flex;
+      gap: 10px;
+
+      .sticky-input {
+        flex: 1;
+        height: 44px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 182, 193, 0.6);
+        padding: 0 16px;
+        font-size: 13px;
+        outline: none;
+        background: rgba(255, 255, 255, 0.8);
+
+        &:focus {
+          border-color: #ff4b72;
+          box-shadow: 0 0 10px rgba(255, 75, 114, 0.15);
+        }
+      }
+
+      .add-note-btn {
+        padding: 0 18px;
+        height: 44px;
+        border-radius: 14px;
+        border: none;
+        background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 14px rgba(255, 75, 114, 0.3);
+
+        &:hover {
+          transform: translateY(-1px);
+        }
+      }
+    }
+
+    .notes-board-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+
+      .sticky-note-card {
+        position: relative;
+        padding: 14px 16px;
+        border-radius: 14px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transform: rotate(-1deg);
+        transition: all 0.25s ease;
+
+        &:nth-child(even) {
+          transform: rotate(1.5deg);
+        }
+
+        &:hover {
+          transform: rotate(0deg) scale(1.03);
+          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .delete-note-btn {
+          position: absolute;
+          top: 6px;
+          right: 8px;
+          border: none;
+          background: transparent;
+          font-size: 16px;
+          font-weight: 800;
+          color: #8c6a7e;
+          cursor: pointer;
+
+          &:hover {
+            color: #e63962;
+          }
+        }
+
+        .note-header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 6px;
+          font-size: 11px;
+          font-weight: 700;
+          color: #6d425a;
+        }
+
+        .note-text {
+          font-size: 13px;
+          font-weight: 600;
+          color: #2b1725;
+          margin: 0;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+
+  /* Quick Actions Vertical */
+  .quick-actions-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .action-btn {
+      height: 46px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+
+      &.primary {
+        background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+        color: #ffffff;
+        border: none;
+        box-shadow: 0 6px 18px rgba(255, 75, 114, 0.3);
+
+        &:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255, 75, 114, 0.4); }
+      }
+
+      &.secondary {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 182, 193, 0.6);
+        color: #ff4b72;
+
+        &:hover { background: rgba(255, 75, 114, 0.08); }
+      }
+
+      &.outline {
+        background: transparent;
+        border: 1px dashed rgba(255, 75, 114, 0.4);
+        color: #6d425a;
+
+        &:hover { border-color: #ff4b72; color: #ff4b72; }
+      }
+    }
+  }
+
+  /* Today's Heartbeat Card */
+  .today-heartbeat-card {
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(255, 240, 245, 0.9) 0%, rgba(255, 228, 236, 0.9) 100%);
+    border: 1px solid rgba(255, 182, 193, 0.6);
+    box-shadow: 0 8px 24px rgba(255, 75, 114, 0.1);
+
+    .heartbeat-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+
+      .fire-icon {
+        font-size: 20px;
+        color: #ff4b72;
+      }
+
+      .card-icon-title {
+        font-weight: 800;
+        font-size: 15px;
+        color: #3d152b;
+      }
+    }
+
+    .heartbeat-desc {
+      font-size: 13px;
+      color: #6d425a;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .send-hug-btn {
+      width: 100%;
+      height: 44px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(255, 75, 114, 0.3);
+      transition: all 0.25s ease;
+
+      &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 24px rgba(255, 75, 114, 0.4);
+      }
+    }
+  }
+}
+
+@keyframes explodeUp {
+  0% { transform: translateY(0) scale(0.5); opacity: 1; }
+  80% { opacity: 0.9; }
+  100% { transform: translateY(-800px) scale(1.8) rotate(30deg); opacity: 0; }
+}
+
+@keyframes pulseGreen {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+
+@keyframes floatSway {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-12px) rotate(8deg); }
+}
+
+@keyframes shimmerSweep {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.22); }
+  40% { transform: scale(1); }
+  60% { transform: scale(1.15); }
+}
+
+@keyframes auraExpand {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}

@@ -1,0 +1,72 @@
+.calendar-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .calendar-header-bar {
+    .page-title {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      color: #3d152b;
+      margin: 0;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: #9e758a;
+      margin: 4px 0 0 0;
+    }
+  }
+
+  .calendar-main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+
+    .custom-calendar-box {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 12px;
+      border: 1px solid rgba(255, 182, 193, 0.4);
+    }
+
+    .events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+
+      .event-card-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        border-radius: 16px;
+        background: rgba(255, 240, 245, 0.5);
+        border: 1px solid rgba(255, 182, 193, 0.4);
+
+        .event-date-badge {
+          padding: 6px 12px;
+          border-radius: 12px;
+          background: #ff4b72;
+          color: #ffffff;
+          font-weight: 800;
+          font-size: 12px;
+          white-space: nowrap;
+        }
+
+        .event-info {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          .ev-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: #3d152b;
+          }
+        }
+      }
+    }
+  }
+}

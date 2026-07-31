@@ -1,0 +1,16 @@
+<button
+  nz-button
+  [nzType]="type()"
+  [nzDanger]="danger()"
+  [nzLoading]="loading()"
+  [disabled]="disabled()"
+  [nzBlock]="block()"
+  [nzSize]="size()"
+  (click)="onClick($event)"
+  class="love-button"
+>
+  @if (icon()) {
+    <nz-icon [nzType]="icon()!" />
+  }
+  <ng-content></ng-content>
+</button>

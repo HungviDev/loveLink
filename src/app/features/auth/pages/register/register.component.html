@@ -1,0 +1,20 @@
+<app-card [hoverable]="false">
+  <div class="register-header">
+    <div class="heart-icon-badge">
+      <nz-icon nzType="user-add" />
+    </div>
+    <h2>Join LoveLink Today</h2>
+    <p>Create your account and build your shared love story</p>
+  </div>
+
+  <app-register-form
+    [loading]="authStore.loading()"
+    [errorMessage]="authStore.error()"
+    (formSubmit)="onRegister($event)"
+  ></app-register-form>
+
+  <div class="register-footer">
+    <span>Already have a couple account?</span>
+    <a routerLink="/auth/login" class="login-link">Sign In</a>
+  </div>
+</app-card>

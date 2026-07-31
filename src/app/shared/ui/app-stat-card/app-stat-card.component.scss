@@ -1,0 +1,79 @@
+:host {
+  display: block;
+}
+
+.stat-card-inner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 182, 193, 0.5);
+  box-shadow: 0 10px 30px rgba(255, 75, 114, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  .stat-icon-wrapper {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+    flex-shrink: 0;
+
+    ::ng-deep .anticon {
+      font-size: 26px;
+    }
+  }
+
+  .stat-content {
+    display: flex;
+    flex-direction: column;
+
+    .stat-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #8c6a7e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value-box {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-top: 4px;
+
+      .stat-value {
+        font-size: 26px;
+        font-weight: 800;
+        font-family: 'Outfit', sans-serif;
+        color: #2d152b;
+        letter-spacing: -0.5px;
+      }
+
+      .stat-unit {
+        font-size: 13px;
+        font-weight: 700;
+        color: #ff4b72;
+        text-transform: lowercase;
+      }
+    }
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(255, 75, 114, 0.16);
+    border-color: rgba(255, 117, 140, 0.6);
+
+    .stat-icon-wrapper {
+      transform: scale(1.12) rotate(-6deg);
+    }
+  }
+}

@@ -1,0 +1,87 @@
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 35%, #ffd6e5 70%, #ffc2d1 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 40px 20px;
+
+  .background-glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+
+    &.orb-1 {
+      width: 450px;
+      height: 450px;
+      background: rgba(255, 75, 114, 0.25);
+      top: -100px;
+      left: -100px;
+    }
+
+    &.orb-2 {
+      width: 500px;
+      height: 500px;
+      background: rgba(255, 142, 250, 0.25);
+      bottom: -120px;
+      right: -120px;
+    }
+  }
+
+  .auth-container {
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    z-index: 2;
+
+    .brand-hero-section {
+      text-align: center;
+      margin-bottom: 32px;
+
+      .brand-badge {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        box-shadow: 0 10px 25px rgba(255, 75, 114, 0.35);
+
+        .brand-icon {
+          font-size: 32px;
+          color: #ffffff;
+        }
+      }
+
+      .brand-name {
+        font-size: 36px;
+        font-weight: 800;
+        font-family: 'Outfit', sans-serif;
+        background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0 0 6px 0;
+        letter-spacing: -0.5px;
+      }
+
+      .brand-tagline {
+        font-size: 14px;
+        color: #7d546b;
+        font-weight: 500;
+        margin: 0;
+      }
+    }
+
+    .auth-card-wrapper {
+      ::ng-deep .love-card {
+        border-radius: 28px !important;
+        box-shadow: 0 20px 50px rgba(255, 75, 114, 0.15) !important;
+      }
+    }
+  }
+}

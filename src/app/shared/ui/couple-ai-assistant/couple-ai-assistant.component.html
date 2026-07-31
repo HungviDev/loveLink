@@ -1,0 +1,93 @@
+<!-- Floating Draggable AI Assistant Trigger Widget -->
+<div class="ai-widget-wrapper" cdkDrag>
+  
+  <!-- Draggable AI Bubble Badge -->
+  <div 
+    class="ai-floating-bubble" 
+    [class.is-active]="isOpen()"
+    (click)="toggleChat()"
+    nz-tooltip 
+    nzTooltipTitle="Kéo rê hoặc nhấp để trò chuyện với Cupid AI 🤖💖"
+    nzTooltipPlacement="left"
+  >
+    <div class="bubble-pulse-ring"></div>
+    <div class="ai-avatar-circle">
+      <span class="ai-emoji">🤖</span>
+      <span class="heart-badge-mini">💖</span>
+    </div>
+    <div class="bubble-label">
+      <span class="label-title">Cupid AI</span>
+      <span class="label-sub">Trợ lý Tình Yêu</span>
+    </div>
+  </div>
+
+  <!-- AI Counseling Chat Window Modal/Box -->
+  @if (isOpen()) {
+    <div class="ai-chat-box-window animate-pop">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="ai-profile-info">
+          <div class="ai-head-avatar">🤖💖</div>
+          <div class="ai-title-group">
+            <span class="ai-name">Cupid AI Assistant</span>
+            <span class="ai-status"><span class="green-dot"></span> Sẵn sàng tư vấn cảm xúc 🌸</span>
+          </div>
+        </div>
+        <button class="close-btn" (click)="closeChat()">
+          <nz-icon nzType="close" />
+        </button>
+      </div>
+
+      <!-- Messages History Area -->
+      <div class="chat-messages-container">
+        @for (msg of messages(); track msg.id) {
+          <div class="chat-message-row" [class.user-row]="msg.sender === 'user'">
+            @if (msg.sender === 'ai') {
+              <div class="msg-avatar">🤖</div>
+            }
+            <div class="message-bubble" [class.user-bubble]="msg.sender === 'user'">
+              <div class="msg-text">{{ msg.text }}</div>
+              <span class="msg-time">{{ msg.timestamp }}</span>
+            </div>
+          </div>
+        }
+
+        @if (isTyping()) {
+          <div class="chat-message-row ai-typing">
+            <div class="msg-avatar">🤖</div>
+            <div class="message-bubble typing-bubble">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-text">Cupid AI đang suy nghĩ...</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Quick Suggestion Prompts -->
+      <div class="quick-prompts-scroller">
+        @for (prompt of quickPrompts; track prompt) {
+          <button class="prompt-chip-btn" (click)="sendQuickPrompt(prompt)">
+            {{ prompt }}
+          </button>
+        }
+      </div>
+
+      <!-- Chat Input Bar -->
+      <div class="chat-input-bar">
+        <input
+          type="text"
+          class="chat-text-input"
+          placeholder="Hỏi Cupid AI về tình yêu, cảm xúc..."
+          [ngModel]="userMessageInput()"
+          (ngModelChange)="userMessageInput.set($event)"
+          (keyup.enter)="sendMessage()"
+        />
+        <button class="send-btn" [disabled]="!userMessageInput().trim()" (click)="sendMessage()">
+          <nz-icon nzType="send" nzTheme="fill" />
+        </button>
+      </div>
+    </div>
+  }
+</div>

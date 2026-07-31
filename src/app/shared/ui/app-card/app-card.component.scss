@@ -1,0 +1,36 @@
+:host {
+  display: block;
+}
+
+.love-card {
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 182, 193, 0.5) !important;
+  box-shadow: 0 10px 30px rgba(255, 75, 114, 0.08) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: hidden;
+
+  &.hoverable-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(255, 75, 114, 0.16) !important;
+    border-color: rgba(255, 117, 140, 0.7) !important;
+  }
+
+  ::ng-deep .ant-card-head {
+    border-bottom: 1px solid rgba(255, 200, 215, 0.4);
+    padding: 0 24px;
+    min-height: 56px;
+
+    .ant-card-head-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #3d152b;
+      font-family: 'Outfit', sans-serif;
+    }
+  }
+
+  ::ng-deep .ant-card-body {
+    padding: 24px;
+  }
+}

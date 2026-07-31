@@ -1,0 +1,22 @@
+.love-button {
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.ant-btn-primary {
+    background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+    border: none;
+    box-shadow: 0 4px 14px rgba(255, 75, 114, 0.35);
+
+    &:hover {
+      background: linear-gradient(135deg, #e63962 0%, #ff5e7a 100%);
+      box-shadow: 0 6px 20px rgba(255, 75, 114, 0.45);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}

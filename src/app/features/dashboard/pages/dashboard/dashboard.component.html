@@ -1,0 +1,251 @@
+<div class="dashboard-page-container">
+
+  <!-- Fullscreen Explosive Heart Hug Burst Effect -->
+  @if (isBursting()) {
+    <div class="heart-burst-overlay">
+      <div class="burst-heart h1">💖</div>
+      <div class="burst-heart h2">🌸</div>
+      <div class="burst-heart h3">💕</div>
+      <div class="burst-heart h4">✨</div>
+      <div class="burst-heart h5">🤗</div>
+      <div class="burst-heart h6">❤️</div>
+      <div class="burst-heart h7">⭐</div>
+      <div class="burst-heart h8">💖</div>
+    </div>
+  }
+
+  <!-- Header Welcome Title Bar -->
+  <div class="dashboard-header-bar">
+    <div class="header-text">
+      <h1 class="page-title">Couple Dashboard 💕</h1>
+      <p class="page-subtitle">Welcome back! Here is your shared love journey overview.</p>
+    </div>
+    <div class="connection-status-badge">
+      <span class="status-dot-animated"></span>
+      <span>Connected & In Love</span>
+    </div>
+  </div>
+
+  <!-- Romantic Hero Days Together Card -->
+  <div class="hero-couple-card">
+    <div class="floating-heart heart-1">💖</div>
+    <div class="floating-heart heart-2">🌸</div>
+    <div class="floating-heart heart-3">✨</div>
+    <div class="floating-heart heart-4">💕</div>
+
+    <div class="hero-card-content">
+      <div class="couple-avatars-row">
+        <div class="avatar-with-name">
+          <app-avatar [src]="currentUser().avatarUrl || null" [name]="currentUser().fullName || 'Alex'" size="large" status="success"></app-avatar>
+          <span class="avatar-name">{{ currentUser().fullName }}</span>
+          <span class="mood-tag-mini">{{ myMood().emoji }} {{ myMood().label }}</span>
+        </div>
+
+        <div class="heart-center-connector">
+          <div class="connector-pulse-ring"></div>
+          <nz-icon nzType="heart" nzTheme="fill" class="pulse-heart-icon" />
+        </div>
+
+        <div class="avatar-with-name">
+          <app-avatar [src]="partnerAvatar()" [name]="partnerName()" size="large" status="success"></app-avatar>
+          <span class="avatar-name">{{ partnerName() }}</span>
+          <span class="mood-tag-mini">{{ partnerMood().emoji }} {{ partnerMood().label }}</span>
+        </div>
+      </div>
+
+      <div class="days-together-counter">
+        <div class="shimmer-sweeper"></div>
+        <span class="days-number">{{ daysTogether() }} Days Together</span>
+        <span class="since-date">Since February 14, 2023</span>
+      </div>
+
+      <!-- Live Anniversary Countdown Timer -->
+      <div class="anniversary-live-countdown">
+        <span class="timer-label">⏰ Sắp tới Kỷ niệm 2 năm:</span>
+        <div class="timer-boxes">
+          <div class="t-box"><span class="num">{{ countdownDays() }}</span><span class="lbl">Days</span></div>
+          <span class="colon">:</span>
+          <div class="t-box"><span class="num">{{ countdownHours() }}</span><span class="lbl">Hrs</span></div>
+          <span class="colon">:</span>
+          <div class="t-box"><span class="num">{{ countdownMins() }}</span><span class="lbl">Mins</span></div>
+          <span class="colon">:</span>
+          <div class="t-box"><span class="num">{{ countdownSecs() }}</span><span class="lbl">Secs</span></div>
+        </div>
+      </div>
+
+      <div class="daily-love-quote">
+        <span class="quote-icon">🥳</span>
+        <span class="quote-text">"In all the world, there is no heart for me like yours."</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Couple Mood Switcher Bar -->
+  <div class="couple-mood-selector-card">
+    <div class="card-title-row">
+      <span class="selector-title">🥰 Hôm nay cảm xúc của bạn thế nào?</span>
+      <span class="selector-sub">Cùng chia sẻ tâm trạng với người ấy</span>
+    </div>
+    <div class="mood-chips-group">
+      @for (m of moodOptions; track m.label) {
+        <button
+          class="mood-chip-btn"
+          [class.active]="myMood().label === m.label"
+          [style.--chip-accent]="m.color"
+          (click)="selectMood(m)"
+        >
+          <span class="m-emoji">{{ m.emoji }}</span>
+          <span class="m-label">{{ m.label }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Stat Cards Grid -->
+  <div class="stat-cards-grid">
+    <app-stat-card
+      title="Shared Memories"
+      [value]="memoriesCount()"
+      unit="moments"
+      icon="heart"
+      color="#ff4b72"
+    ></app-stat-card>
+
+    <app-stat-card
+      title="Upcoming Dates"
+      [value]="upcomingEventsCount()"
+      unit="events"
+      icon="calendar"
+      color="#a855f7"
+    ></app-stat-card>
+
+    <app-stat-card
+      title="Love Messages"
+      [value]="chatMessagesCount()"
+      unit="sent"
+      icon="message"
+      color="#3b82f6"
+    ></app-stat-card>
+  </div>
+
+  <!-- Bottom Main Grid Section -->
+  <div class="dashboard-main-grid">
+
+    <!-- Left Column: Love Milestones & Sticky Notes -->
+    <div class="grid-left-column">
+      
+      <!-- Recent Milestones Card -->
+      <app-card title="Recent Love Milestones" [hoverable]="false">
+        <div class="milestones-list">
+          <div class="milestone-item">
+            <div class="milestone-icon trophy">
+              <nz-icon nzType="trophy" nzTheme="fill" />
+            </div>
+            <div class="milestone-details">
+              <span class="milestone-title">1st Year Anniversary Celebration</span>
+              <span class="milestone-date">February 14, 2024 • Paris, France</span>
+            </div>
+            <nz-tag nzColor="magenta">Celebrated 🥳</nz-tag>
+          </div>
+
+          <div class="milestone-item">
+            <div class="milestone-icon house">
+              <nz-icon nzType="home" nzTheme="fill" />
+            </div>
+            <div class="milestone-details">
+              <span class="milestone-title">Moved into First Shared Apartment</span>
+              <span class="milestone-date">June 20, 2024</span>
+            </div>
+            <nz-tag nzColor="volcano">Milestone 🏠</nz-tag>
+          </div>
+
+          <div class="milestone-item">
+            <div class="milestone-icon trip">
+              <nz-icon nzType="environment" nzTheme="fill" />
+            </div>
+            <div class="milestone-details">
+              <span class="milestone-title">First Trip Together to Bali</span>
+              <span class="milestone-date">November 08, 2024</span>
+            </div>
+            <nz-tag nzColor="magenta">Memory ✈️</nz-tag>
+          </div>
+        </div>
+      </app-card>
+
+      <!-- Secret Sticky Love Notes Widget -->
+      <app-card title="📌 Ghi Chú Tình Yêu Bí Mật (Secret Love Notes)" [hoverable]="false">
+        <div class="sticky-notes-widget">
+          <div class="note-input-row">
+            <input
+              type="text"
+              class="sticky-input"
+              placeholder="Viết nhắn gửi ngọt ngào cho người ấy..."
+              [ngModel]="newNoteInput()"
+              (ngModelChange)="newNoteInput.set($event)"
+              (keyup.enter)="addLoveNote()"
+            />
+            <button class="add-note-btn" (click)="addLoveNote()">
+              <nz-icon nzType="plus" /> Dán Note
+            </button>
+          </div>
+
+          <div class="notes-board-grid">
+            @for (note of loveNotes(); track note.id) {
+              <div class="sticky-note-card animate-pop" [style.background-color]="note.color">
+                <button class="delete-note-btn" (click)="deleteLoveNote(note.id)">×</button>
+                <div class="note-header">
+                  <span class="note-author">✍️ {{ note.author }}</span>
+                  <span class="note-time">{{ note.time }}</span>
+                </div>
+                <p class="note-text">{{ note.content }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      </app-card>
+
+    </div>
+
+    <!-- Right Column: Quick Actions & Today's Heartbeat -->
+    <div class="grid-right-column">
+      
+      <!-- Quick Actions Card -->
+      <app-card title="Quick Actions" [hoverable]="false">
+        <div class="quick-actions-vertical">
+          <button class="action-btn primary" routerLink="/album">
+            <nz-icon nzType="camera" nzTheme="outline" />
+            <span>Upload Photo</span>
+          </button>
+
+          <button class="action-btn secondary" routerLink="/chat">
+            <nz-icon nzType="message" nzTheme="outline" />
+            <span>Send Love Note</span>
+          </button>
+
+          <button class="action-btn outline" routerLink="/todo">
+            <nz-icon nzType="plus" nzTheme="outline" />
+            <span>Add Shared Task</span>
+          </button>
+        </div>
+      </app-card>
+
+      <!-- Today's Heartbeat Card -->
+      <div class="today-heartbeat-card">
+        <div class="heartbeat-header">
+          <nz-icon nzType="fire" nzTheme="fill" class="fire-icon" />
+          <span class="card-icon-title">Today's Heartbeat</span>
+        </div>
+        <p class="heartbeat-desc">
+          Sophia sent you a warm virtual hug 5 mins ago!
+        </p>
+
+        <button class="send-hug-btn" (click)="triggerVirtualHug()">
+          <span class="btn-heart-emoji">🤗</span>
+          <span>Send Hug Back 🤗</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

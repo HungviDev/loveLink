@@ -1,0 +1,58 @@
+<div class="chat-page-container">
+
+  <!-- Chat Header Bar -->
+  <div class="chat-header-bar">
+    <div class="chat-partner-profile">
+      <app-avatar src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80" name="Sophia Miller" size="large" status="success"></app-avatar>
+      <div class="partner-text">
+        <span class="partner-name">Sophia Miller 💕</span>
+        <span class="partner-status"><span class="online-dot"></span> Đang hoạt động • Bên cạnh bạn</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="call-btn" nz-tooltip nzTooltipTitle="Cuộc gọi video lãng mạn">
+        <nz-icon nzType="heart" nzTheme="fill" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Messages Body Box -->
+  <div class="chat-body-box">
+    @for (msg of chatMessages(); track msg.id) {
+      <div class="chat-message-item" [class.is-me]="msg.sender === 'me'">
+        @if (msg.sender === 'partner') {
+          <app-avatar src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80" name="Sophia" size="small"></app-avatar>
+        }
+        <div class="message-bubble" [class.is-sticker]="msg.sticker">
+          <span class="bubble-text">{{ msg.text }}</span>
+          <span class="bubble-time">{{ msg.time }}</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Quick Stickers Row -->
+  <div class="stickers-bar">
+    <span class="bar-lbl">Stickers:</span>
+    @for (st of quickStickers; track st) {
+      <button class="sticker-btn" (click)="sendSticker(st)">{{ st }}</button>
+    }
+  </div>
+
+  <!-- Chat Input Footer -->
+  <div class="chat-footer-bar">
+    <input
+      type="text"
+      class="chat-input"
+      placeholder="Nhập lời nhắn yêu thương cho Sophia..."
+      [ngModel]="chatInput()"
+      (ngModelChange)="chatInput.set($event)"
+      (keyup.enter)="sendMessage()"
+    />
+    <button class="send-btn" (click)="sendMessage()">
+      <nz-icon nzType="send" nzTheme="fill" /> Gửi
+    </button>
+  </div>
+
+</div>

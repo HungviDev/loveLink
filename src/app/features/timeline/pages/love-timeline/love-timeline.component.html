@@ -1,0 +1,69 @@
+<div class="timeline-page-container">
+
+  <!-- Header Bar -->
+  <div class="timeline-header-bar">
+    <div class="header-text">
+      <h1 class="page-title">Love Timeline 🧭</h1>
+      <p class="page-subtitle">Dòng thời gian lưu giữ từng cột mốc ý nghĩa trên chặng đường yêu</p>
+    </div>
+  </div>
+
+  <!-- Add New Milestone Form Box -->
+  <app-card title="✨ Thêm Cột Mốc Tình Yêu Mới (Add Milestone)" [hoverable]="false">
+    <div class="add-event-form">
+      <input
+        type="text"
+        class="form-input"
+        placeholder="Tên cột mốc (vd: Chuyến đi Đà Lạt đầu tiên...)"
+        [ngModel]="newTitle()"
+        (ngModelChange)="newTitle.set($event)"
+      />
+      <input
+        type="text"
+        class="form-input date-input"
+        placeholder="Ngày (vd: Oct 15, 2024)"
+        [ngModel]="newDate()"
+        (ngModelChange)="newDate.set($event)"
+      />
+      <input
+        type="text"
+        class="form-input desc-input"
+        placeholder="Mô tả ngắn cảm xúc..."
+        [ngModel]="newDesc()"
+        (ngModelChange)="newDesc.set($event)"
+      />
+      <button class="add-btn" (click)="addTimelineEvent()">
+        <nz-icon nzType="plus" /> Lưu Kỷ Niệm
+      </button>
+    </div>
+  </app-card>
+
+  <!-- Interactive Timeline List -->
+  <div class="timeline-card-wrapper">
+    <app-card title="💕 Hành Trình Tình Yêu" [hoverable]="false">
+      <div class="timeline-custom-flow">
+        @for (item of events(); track item.id) {
+          <div class="timeline-row-item">
+            <div class="timeline-date-badge" [style.background]="item.color">
+              {{ item.date }}
+            </div>
+
+            <div class="timeline-card-content">
+              <div class="card-header-row">
+                <span class="item-title">{{ item.title }}</span>
+                <span class="item-location">{{ item.location }}</span>
+              </div>
+              <p class="item-desc">{{ item.description }}</p>
+              @if (item.photoUrl) {
+                <div class="photo-preview-wrapper">
+                  <img [src]="item.photoUrl" alt="Memory" class="memory-img" />
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </app-card>
+  </div>
+
+</div>

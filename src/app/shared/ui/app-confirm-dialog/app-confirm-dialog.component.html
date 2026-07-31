@@ -1,0 +1,14 @@
+<nz-modal
+  [nzVisible]="isVisible()"
+  [nzTitle]="title()"
+  [nzContent]="modalContent"
+  [nzOkText]="okText()"
+  [nzCancelText]="cancelText()"
+  [nzOkLoading]="loading()"
+  (nzOnOk)="handleOk()"
+  (nzOnCancel)="handleCancel()"
+>
+  <ng-template #modalContent>
+    <p>{{ content() }}</p>
+  </ng-template>
+</nz-modal>

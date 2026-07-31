@@ -1,0 +1,49 @@
+.login-header {
+  text-align: center;
+  margin-bottom: 28px;
+
+  .heart-icon-badge {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, rgba(255, 75, 114, 0.15) 0%, rgba(255, 117, 140, 0.25) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 28px;
+    color: #ff4b72;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #2d152b;
+    margin-bottom: 6px;
+  }
+
+  p {
+    color: #8c7386;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 220, 230, 0.6);
+  font-size: 14px;
+  color: #5d485a;
+
+  .register-link {
+    color: #ff4b72;
+    font-weight: 700;
+    margin-left: 6px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
