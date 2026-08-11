@@ -5,6 +5,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 import { RegisterRequest } from '../../models/auth.model';
 import { AppButtonComponent } from '../../../../shared/ui/app-button/app-button.component';
@@ -19,6 +20,7 @@ import { AppButtonComponent } from '../../../../shared/ui/app-button/app-button.
     NzInputModule,
     NzDatePickerModule,
     NzIconModule,
+    NzSelectModule,
     AppButtonComponent
   ],
   templateUrl: './register-form.component.html',
@@ -37,7 +39,10 @@ export class RegisterFormComponent {
     fullName: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    relationshipStartDate: [null]
+    dateOfBirth: [null, [Validators.required]],
+    gender: [null, [Validators.required]],
+    avatarUrl: ['', [Validators.pattern(/https?:\/\/.+/)]],
+    bio: ['', [Validators.maxLength(100)]]
   });
 
   submitForm(): void {
@@ -45,8 +50,8 @@ export class RegisterFormComponent {
       const val = this.registerForm.value;
       const formatted = {
         ...val,
-        relationshipStartDate: val.relationshipStartDate
-          ? new Date(val.relationshipStartDate).toISOString().split('T')[0]
+        dateOfBirth: val.dateOfBirth
+          ? new Date(val.dateOfBirth).toISOString().split('T')[0]
           : undefined
       };
       this.formSubmit.emit(formatted);

@@ -6,7 +6,7 @@
     <app-couple-pairing-modal (pairedSuccess)="onPairingSuccess()"></app-couple-pairing-modal>
   }
 
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzWidth="260px" class="sidebar-navigation">
+  <nz-sider nzCollapsible [nzCollapsed]="isCollapsed()" (nzCollapsedChange)="isCollapsed.set($event)" [nzTrigger]="null" nzWidth="260px" class="sidebar-navigation">
     <div class="logo-box">
       <div class="heart-pulse-badge">
         <nz-icon nzType="heart" nzTheme="fill" class="heart-brand-icon" />
@@ -20,67 +20,88 @@
     </div>
 
     <ul nz-menu nzMode="inline" class="side-menu">
-      <li nz-menu-item routerLink="/dashboard" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+      <li nz-menu-item routerLink="/dashboard" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+          [nzTooltipTitle]="isCollapsed() ? 'Dashboard' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().dashboard" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="appstore" nzTheme="fill" class="menu-nav-icon icon-dashboard" />
         </nz-badge>
-        <span class="menu-label-text">Dashboard</span>
-        @if (!isCollapsed() && badgeService.badges().dashboard > 0) {
-          <span class="menu-badge-pill">{{ badgeService.badges().dashboard }}</span>
+        @if (!isCollapsed()) {
+          <span class="menu-label-text">Dashboard</span>
+          @if (badgeService.badges().dashboard > 0) {
+            <span class="menu-badge-pill">{{ badgeService.badges().dashboard }}</span>
+          }
         }
       </li>
-      <li nz-menu-item routerLink="/couple" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+      <li nz-menu-item routerLink="/couple" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+          [nzTooltipTitle]="isCollapsed() ? 'Couple Profile' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().couple" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="heart" nzTheme="fill" class="menu-nav-icon icon-couple" />
         </nz-badge>
-        <span class="menu-label-text">Couple Profile</span>
-        @if (!isCollapsed() && badgeService.badges().couple > 0) {
-          <span class="menu-badge-pill">{{ badgeService.badges().couple }}</span>
+        @if (!isCollapsed()) {
+          <span class="menu-label-text">Couple Profile</span>
+          @if (badgeService.badges().couple > 0) {
+            <span class="menu-badge-pill">{{ badgeService.badges().couple }}</span>
+          }
         }
       </li>
-      <li nz-menu-item routerLink="/timeline" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+      <li nz-menu-item routerLink="/timeline" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+          [nzTooltipTitle]="isCollapsed() ? 'Love Timeline' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().timeline" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="compass" nzTheme="fill" class="menu-nav-icon icon-timeline" />
         </nz-badge>
-        <span class="menu-label-text">Love Timeline</span>
-        @if (!isCollapsed() && badgeService.badges().timeline > 0) {
-          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().timeline }}</span>
+        @if (!isCollapsed()) {
+          <span class="menu-label-text">Love Timeline</span>
+          @if (badgeService.badges().timeline > 0) {
+            <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().timeline }}</span>
+          }
         }
       </li>
-      <li nz-menu-item routerLink="/album" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+      <li nz-menu-item routerLink="/album" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+          [nzTooltipTitle]="isCollapsed() ? 'Shared Album' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().album" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="picture" nzTheme="fill" class="menu-nav-icon icon-album" />
         </nz-badge>
-        <span class="menu-label-text">Shared Album</span>
-        @if (!isCollapsed() && badgeService.badges().album > 0) {
-          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().album }}</span>
+        @if (!isCollapsed()) {
+          <span class="menu-label-text">Shared Album</span>
+          @if (badgeService.badges().album > 0) {
+            <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().album }}</span>
+          }
         }
       </li>
-      <li nz-menu-item routerLink="/chat" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+      <li nz-menu-item routerLink="/chat" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+          [nzTooltipTitle]="isCollapsed() ? 'Love Chat' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().chat" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="message" nzTheme="fill" class="menu-nav-icon icon-chat" />
         </nz-badge>
-        <span class="menu-label-text">Love Chat</span>
-        @if (!isCollapsed() && badgeService.badges().chat > 0) {
-          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().chat }}</span>
+        @if (!isCollapsed()) {
+          <span class="menu-label-text">Love Chat</span>
+          @if (badgeService.badges().chat > 0) {
+            <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().chat }}</span>
+          }
         }
       </li>
-      <li nz-menu-item routerLink="/todo" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+      <li nz-menu-item routerLink="/todo" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+          [nzTooltipTitle]="isCollapsed() ? 'Couple Todo' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().todo" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="check-circle" nzTheme="fill" class="menu-nav-icon icon-todo" />
         </nz-badge>
-        <span class="menu-label-text">Couple Todo</span>
-        @if (!isCollapsed() && badgeService.badges().todo > 0) {
-          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().todo }}</span>
+        @if (!isCollapsed()) {
+          <span class="menu-label-text">Couple Todo</span>
+          @if (badgeService.badges().todo > 0) {
+            <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().todo }}</span>
+          }
         }
       </li>
-      <li nz-menu-item routerLink="/calendar" routerLinkActive="ant-menu-item-selected" class="menu-nav-item">
+      <li nz-menu-item routerLink="/calendar" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+          [nzTooltipTitle]="isCollapsed() ? 'Calendar' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().calendar" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="calendar" nzTheme="fill" class="menu-nav-icon icon-calendar" />
         </nz-badge>
-        <span class="menu-label-text">Calendar</span>
-        @if (!isCollapsed() && badgeService.badges().calendar > 0) {
-          <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().calendar }}</span>
+        @if (!isCollapsed()) {
+          <span class="menu-label-text">Calendar</span>
+          @if (badgeService.badges().calendar > 0) {
+            <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().calendar }}</span>
+          }
         }
       </li>
     </ul>

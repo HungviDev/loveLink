@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import { CacheServiceService } from './../../core/services/CacheService.service';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -16,6 +17,9 @@ import { NotificationBadgeService } from '../../core/services/notification-badge
 import { AppAvatarComponent } from '../../shared/ui/app-avatar/app-avatar.component';
 import { CouplePairingModalComponent } from '../../features/couple/components/couple-pairing-modal/couple-pairing-modal.component';
 import { CoupleAiAssistantComponent } from '../../shared/ui/couple-ai-assistant/couple-ai-assistant.component';
+import { AuthKeys } from '../../core/models/auth-keys.model';
+import { UserProfileServiceService } from '../UserProfileService.service';
+import { CoupleServiceService } from '../../features/couple/coupleService.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -40,10 +44,13 @@ import { CoupleAiAssistantComponent } from '../../shared/ui/couple-ai-assistant/
   styleUrl: './main-layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit{
   private authService = inject(AuthService);
   public themeService = inject(ThemeService);
+  public CacheServiceService = inject(CacheServiceService);
   public badgeService = inject(NotificationBadgeService);
+  private UserProfileServiceService = inject(UserProfileServiceService);
+  private CoupleServiceService = inject(CoupleServiceService);
   private router = inject(Router);
 
   isCollapsed = signal<boolean>(false);
@@ -52,7 +59,7 @@ export class MainLayoutComponent {
   isPaired = this.authService.isPaired;
 
   showPairingModal = signal<boolean>(!this.authService.isPaired());
-
+  userId: string ='';
   constructor() {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
@@ -60,6 +67,13 @@ export class MainLayoutComponent {
         const url = event.urlAfterRedirects || event.url;
         this.clearBadgeForUrl(url);
       });
+  }
+  ngOnInit(): void {
+    const token = this.CacheServiceService.getCache(AuthKeys.TOKEN);
+    if(token == null) {
+      this.router.navigate(['/auth/login']);
+    }
+    this.checkUserIdCouple();
   }
 
   clearBadgeForUrl(url: string): void {
@@ -99,6 +113,35 @@ export class MainLayoutComponent {
 
   clearAllBadges(): void {
     this.badgeService.resetAll();
+  }
+  async checkUserIdCouple(){
+    this.UserProfileServiceService.getUserProfile().subscribe({
+      next: (res) => {
+        if(res.status === 200){
+          this.userId = res.data.userId;
+          this.checkUser(this.userId);
+        }
+      },
+      error: (err) => {
+      }
+    }
+  )
+  }
+  checkUser(id: string){
+    this.CoupleServiceService.getUserProfile(id).subscribe({
+      next: (res) => {
+        if(res.status === 200){
+          if(res.data){
+            this.showPairingModal.set(false);
+          }
+          else{
+            this.showPairingModal.set(true);
+          }
+        }
+      },
+      error: (err) => {
+      }
+    })
   }
 }
 

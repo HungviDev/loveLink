@@ -36,12 +36,12 @@ export class LoginFormComponent {
   loginForm: FormGroup = this.fb.group({
     email: ['alex@example.com', [Validators.required, Validators.email]],
     password: ['password123', [Validators.required, Validators.minLength(6)]],
-    rememberMe: [true]
   });
 
   submitForm(): void {
     if (this.loginForm.valid) {
       this.formSubmit.emit(this.loginForm.value);
+      console.log(this.loginForm.value);
     } else {
       Object.values(this.loginForm.controls).forEach((control) => {
         if (control.invalid) {

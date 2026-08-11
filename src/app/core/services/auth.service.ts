@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
 import { User, AuthResponse } from '../models/user.model';
@@ -11,7 +12,12 @@ export class AuthService {
   private readonly TOKEN_KEY = 'lovelink_token';
   private readonly USER_KEY = 'lovelink_user';
   private readonly PAIRED_KEY = 'lovelink_paired';
+  private http = inject(HttpClient);
 
+  constructor(
+  ){
+    
+  }
   private defaultUser: User = {
     id: 'u-101',
     email: 'alex@example.com',
@@ -28,49 +34,19 @@ export class AuthService {
   token = signal<string | null>(this.getStoredToken() || 'mock-dev-token');
   isPaired = signal<boolean>(this.getStoredPairedState());
   myPairCode = signal<string>('LOVE68');
+  private baseUrl = 'http://localhost:8080/api';
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    const mockUser: User = {
-      ...this.defaultUser,
-      email: credentials.email
-    };
-
-    const response: AuthResponse = {
-      token: 'jwt-token-lovelink-mock-sec-7728',
-      user: mockUser
-    };
-
-    return of(response).pipe(
-      delay(400),
-      tap((res) => {
-        this.setSession(res.token, res.user);
-      })
-    );
-  }
+  return this.http.post<AuthResponse>(
+    `${this.baseUrl}/auth/login`,
+    credentials
+  );
+}
 
   register(payload: RegisterRequest): Observable<AuthResponse> {
-    const newUser: User = {
-      id: `u-${Date.now()}`,
-      email: payload.email,
-      fullName: payload.fullName,
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-      partnerId: 'u-102',
-      partnerName: 'Sophia Miller',
-      partnerAvatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80',
-      relationshipStartDate: payload.relationshipStartDate || '2023-02-14',
-      createdAt: new Date().toISOString()
-    };
-
-    const response: AuthResponse = {
-      token: `jwt-token-${Date.now()}`,
-      user: newUser
-    };
-
-    return of(response).pipe(
-      delay(400),
-      tap((res) => {
-        this.setSession(res.token, res.user);
-      })
+    return this.http.post<AuthResponse>(
+      `${this.baseUrl}/auth/register`,
+      payload
     );
   }
 

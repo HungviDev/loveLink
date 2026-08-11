@@ -26,6 +26,7 @@ export class RegisterComponent {
   authStore = inject(AuthStore);
 
   onRegister(payload: RegisterRequest): void {
+    console.log('RegisterComponent::onRegister', payload);
     this.authStore.register(payload);
   }
 }

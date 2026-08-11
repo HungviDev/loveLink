@@ -220,8 +220,20 @@
         display: none;
       }
 
+      ::ng-deep .ant-menu-item,
       ::ng-deep .ant-menu-inline-collapsed .ant-menu-item {
+        justify-content: center !important;
+        padding: 0 !important;
         overflow: visible !important;
+
+        .menu-nav-icon {
+          margin-right: 0 !important;
+        }
+
+        .menu-label-text,
+        .menu-badge-pill {
+          display: none !important;
+        }
 
         .menu-icon-badge {
           position: relative;

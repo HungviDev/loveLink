@@ -1,15 +1,16 @@
 export interface LoginRequest {
   email: string;
   password: string;
-  rememberMe?: boolean;
 }
 
 export interface RegisterRequest {
-  fullName: string;
   email: string;
   password: string;
-  confirmPassword?: string;
-  relationshipStartDate?: string;
+  fullName: string;
+  avatarUrl?: string;
+  bio?: string;
+  gender?: number;
+  dateOfBirth?: string;
 }
 
 export interface AuthState {

@@ -6,39 +6,88 @@
     </div>
   }
 
+
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter your full name">
+    <nz-form-control [nzErrorTip]="nameErrorTpl">
       <nz-input-group nzPrefixIcon="user" class="custom-input-group">
-        <input type="text" nz-input formControlName="fullName" placeholder="Full name" />
+        <input type="text" nz-input formControlName="fullName" placeholder="Họ và tên" />
       </nz-input-group>
+      <ng-template #nameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Vui lòng nhập họ và tên!</ng-container>
+        <ng-container *ngIf="control.hasError('minlength')">Tên phải có ít nhất 2 ký tự!</ng-container>
+      </ng-template>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please input a valid email address!">
+    <nz-form-control [nzErrorTip]="emailErrorTpl">
       <nz-input-group nzPrefixIcon="mail" class="custom-input-group">
-        <input type="email" nz-input formControlName="email" placeholder="Email address" />
+        <input type="email" nz-input formControlName="email" placeholder="Email" />
       </nz-input-group>
+      <ng-template #emailErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Vui lòng nhập email!</ng-container>
+        <ng-container *ngIf="control.hasError('email')">Email không hợp lệ!</ng-container>
+      </ng-template>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control nzErrorTip="Password must be at least 6 characters">
+    <nz-form-control [nzErrorTip]="passwordErrorTpl">
       <nz-input-group nzPrefixIcon="lock" class="custom-input-group">
-        <input type="password" nz-input formControlName="password" placeholder="Password" />
+        <input type="password" nz-input formControlName="password" placeholder="Mật khẩu" />
       </nz-input-group>
+      <ng-template #passwordErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Vui lòng nhập mật khẩu!</ng-container>
+        <ng-container *ngIf="control.hasError('minlength')">Mật khẩu phải có ít nhất 6 ký tự!</ng-container>
+      </ng-template>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control>
-      <nz-date-picker
-        formControlName="relationshipStartDate"
-        nzPlaceHolder="Relationship Start Date (Optional)"
-        class="custom-date-picker"
-      ></nz-date-picker>
+    <nz-form-control [nzErrorTip]="dateErrorTpl">
+      <nz-date-picker formControlName="dateOfBirth" nzPlaceHolder="Ngày sinh" style="width: 100%; border-radius: 8px;"></nz-date-picker>
+      <ng-template #dateErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Vui lòng chọn ngày sinh!</ng-container>
+      </ng-template>
     </nz-form-control>
   </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="genderErrorTpl">
+      <nz-select formControlName="gender" nzPlaceHolder="Giới tính" nzAllowClear style="border-radius: 8px;">
+        <nz-option [nzValue]="1" nzLabel="Nam"></nz-option>
+        <nz-option [nzValue]="2" nzLabel="Nữ"></nz-option>
+        <nz-option [nzValue]="0" nzLabel="Khác"></nz-option>
+      </nz-select>
+      <ng-template #genderErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Vui lòng chọn giới tính!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="avatarErrorTpl">
+      <nz-input-group nzPrefixIcon="picture" class="custom-input-group">
+        <input type="text" nz-input formControlName="avatarUrl" placeholder="Đường dẫn ảnh đại diện (URL)" />
+      </nz-input-group>
+      <ng-template #avatarErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('pattern')">Đường dẫn không hợp lệ!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="bioErrorTpl">
+      <nz-textarea-count [nzMaxCharacterCount]="100">
+        <textarea rows="2" nz-input formControlName="bio" placeholder="Giới thiệu bản thân..."></textarea>
+      </nz-textarea-count>
+      <ng-template #bioErrorTpl let-control>
+         <ng-container *ngIf="control.hasError('maxlength')">Giới thiệu quá dài!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+
 
   <div class="submit-action">
     <app-button
