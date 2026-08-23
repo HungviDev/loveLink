@@ -49,7 +49,7 @@ export class RegisterFormComponent {
     dateOfBirth: [null, [Validators.required]],
     gender: [null, [Validators.required]],
     avatarFile: [null], // Form giờ sẽ lưu trữ URL ảnh trả về từ server
-    connectionCode: [''],
+    pairCode: [''],
     bio: ['', [Validators.maxLength(100)]]
   });
 

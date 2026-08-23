@@ -10,31 +10,16 @@
 
   <!-- Add New Milestone Form Box -->
   <app-card title="✨ Thêm Cột Mốc Tình Yêu Mới (Add Milestone)" [hoverable]="false">
-    <div class="add-event-form">
-      <input
-        type="text"
-        class="form-input"
-        placeholder="Tên cột mốc (vd: Chuyến đi Đà Lạt đầu tiên...)"
-        [ngModel]="newTitle()"
-        (ngModelChange)="newTitle.set($event)"
-      />
-      <input
-        type="text"
-        class="form-input date-input"
-        placeholder="Ngày (vd: Oct 15, 2024)"
-        [ngModel]="newDate()"
-        (ngModelChange)="newDate.set($event)"
-      />
-      <input
-        type="text"
-        class="form-input desc-input"
-        placeholder="Mô tả ngắn cảm xúc..."
-        [ngModel]="newDesc()"
-        (ngModelChange)="newDesc.set($event)"
-      />
-      <button class="add-btn" (click)="addTimelineEvent()">
-        <nz-icon nzType="plus" /> Lưu Kỷ Niệm
-      </button>
+    <div class="add-milestone-banner">
+      <div class="banner-icon-side">
+        <nz-icon nzType="heart" nzTheme="twotone" nzTwotoneColor="#ff4b72" class="banner-heart-icon" />
+      </div>
+      <div class="banner-text-side">
+        <p class="banner-hint">Ghi lại những khoảnh khắc đáng nhớ và cột mốc tình yêu quan trọng để lưu giữ trọn vẹn những ký ức ngọt ngào bên nhau!</p>
+        <button nz-button nzType="primary" class="open-modal-btn" (click)="openAddModal()">
+          <nz-icon nzType="plus-circle" nzTheme="outline" /> Thêm Cột Mốc Mới
+        </button>
+      </div>
     </div>
   </app-card>
 
@@ -67,3 +52,92 @@
   </div>
 
 </div>
+
+<!-- Add New Memory Modal -->
+<nz-modal
+  [nzVisible]="isModalVisible()"
+  nzTitle="Thêm Kỷ Niệm Yêu Thương Mới 💕"
+  (nzOnCancel)="closeAddModal()"
+  (nzOnOk)="submitMemory()"
+  [nzOkLoading]="isSaving()"
+  nzOkText="Lưu Kỷ Niệm"
+  nzCancelText="Hủy"
+  nzCentered
+  [nzWidth]="550"
+  [nzBodyStyle]="{ padding: '24px 32px' }"
+  [nzWrapClassName]="'custom-add-memory-modal'"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="memoryForm" nzLayout="vertical" class="add-memory-form">
+      
+      <!-- Photo Selection/Uploader -->
+      <nz-form-item>
+        <nz-form-label>Ảnh kỷ niệm</nz-form-label>
+        <nz-form-control>
+          <div class="memory-upload-container">
+            @if (memoryForm.get('photoUrl')?.value) {
+              <div class="memory-upload-preview">
+                <img [src]="memoryForm.get('photoUrl')?.value" alt="Selected memory" />
+                <button type="button" class="delete-photo-btn" (click)="removePhoto()">
+                  <nz-icon nzType="delete" nzTheme="outline" />
+                </button>
+              </div>
+            } @else {
+              <div class="memory-upload-dropzone" (click)="fileInput.click()">
+                <nz-icon [nzType]="isUploading() ? 'loading' : 'camera'" class="upload-icon" />
+                <span class="upload-text">{{ isUploading() ? 'Đang tải ảnh...' : 'Nhấp vào đây để tải ảnh kỷ niệm' }}</span>
+              </div>
+            }
+            <input #fileInput type="file" (change)="onPhotoChange($event)" accept="image/*" hidden />
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Tên (Title) -->
+      <nz-form-item>
+        <nz-form-label nzRequired>Tên kỷ niệm / Cột mốc</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tên kỷ niệm">
+          <nz-input-group nzPrefixIcon="heart" class="custom-input-group">
+            <input type="text" nz-input formControlName="title" placeholder="Ví dụ: Lần đầu gặp nhau, Kỷ niệm 1 năm..." />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-row nzGutter="16">
+        <!-- Ngày (Date) -->
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Ngày kỷ niệm</nz-form-label>
+            <nz-form-control nzErrorTip="Vui lòng chọn ngày kỷ niệm">
+              <nz-date-picker formControlName="date" class="custom-date-picker" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Địa chỉ (Location/Address) -->
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Địa chỉ / Địa điểm</nz-form-label>
+            <nz-form-control nzErrorTip="Vui lòng nhập địa chỉ">
+              <nz-input-group nzPrefixIcon="environment" class="custom-input-group">
+                <input type="text" nz-input formControlName="location" placeholder="Ví dụ: Quán Coffee Sài Gòn" />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!-- Miêu tả (Description) -->
+      <nz-form-item>
+        <nz-form-label nzRequired>Mô tả ngắn cảm xúc</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mô tả cảm xúc">
+          <nz-textarea-count [nzMaxCharacterCount]="200">
+            <textarea nz-input formControlName="description" rows="3" placeholder="Anh vẫn nhớ nụ cười tươi tắn của em ngày hôm ấy..." class="custom-textarea"></textarea>
+          </nz-textarea-count>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+</nz-modal>
+

@@ -102,7 +102,7 @@ export class MainLayoutComponent implements OnInit{
 
   logout(): void {
     this.CacheServiceService.removeCache(AuthKeys.TOKEN);
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/login']);
   }
 
   simulateNewUpdate(): void {

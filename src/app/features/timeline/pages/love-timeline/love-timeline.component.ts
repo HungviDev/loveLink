@@ -1,11 +1,19 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 import { AppCardComponent } from '../../../../shared/ui/app-card/app-card.component';
+import { FileUploadService } from '../../../../core/services/file-upload.service';
 
 export interface TimelineEvent {
   id: string;
@@ -24,10 +32,16 @@ export interface TimelineEvent {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     NzIconModule,
     NzTagModule,
     NzTimelineModule,
+    NzModalModule,
+    NzFormModule,
+    NzInputModule,
+    NzDatePickerModule,
+    NzButtonModule,
+    NzGridModule,
     AppCardComponent
   ],
   templateUrl: './love-timeline.component.html',
@@ -35,6 +49,10 @@ export interface TimelineEvent {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoveTimelineComponent {
+  private fb = inject(FormBuilder);
+  private message = inject(NzMessageService);
+  private fileUploadService = inject(FileUploadService);
+
   events = signal<TimelineEvent[]>([
     {
       id: '1',
@@ -80,27 +98,100 @@ export class LoveTimelineComponent {
     }
   ]);
 
-  newTitle = signal<string>('');
-  newDate = signal<string>('');
-  newDesc = signal<string>('');
+  isModalVisible = signal<boolean>(false);
+  isSaving = signal<boolean>(false);
+  isUploading = signal<boolean>(false); 
 
-  addTimelineEvent(): void {
-    if (!this.newTitle() || !this.newDate()) return;
+  memoryForm: FormGroup = this.fb.group({
+    title: ['', [Validators.required]],
+    date: [null, [Validators.required]],
+    description: ['', [Validators.required]],
+    location: ['', [Validators.required]],
+    photoUrl: ['']
+  });
+
+  openAddModal(): void {
+    this.memoryForm.reset({
+      title: '',
+      date: null,
+      description: '',
+      location: '',
+      photoUrl: ''
+    });
+    this.isModalVisible.set(true);
+  }
+
+  closeAddModal(): void {
+    this.isModalVisible.set(false);
+  }
+
+  onPhotoChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      const file = target.files[0];
+      this.isUploading.set(true);
+      this.fileUploadService.uploadFile(file).subscribe({
+        next: (response: any) => {
+          this.isUploading.set(false);
+          const uploadedUrl = response.data || response;
+          this.memoryForm.patchValue({ photoUrl: uploadedUrl });
+          console.log('Uploaded photo URL:', this.memoryForm);
+          this.message.success('Tải ảnh lên thành công! 📸');
+        },
+        error: (err) => {
+          this.isUploading.set(false);
+          this.message.error('Lỗi khi tải ảnh lên.');
+          console.error(err);
+        }
+      });
+    }
+  }
+
+  removePhoto(): void {
+    this.memoryForm.patchValue({ photoUrl: '' });
+  }
+
+  submitMemory(): void {
+    if (this.memoryForm.invalid) {
+      Object.values(this.memoryForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      return;
+    }
+
+    this.isSaving.set(true);
+    const val = this.memoryForm.value;
+
+    let dateStr = '';
+    if (val.date) {
+      try {
+        dateStr = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(val.date));
+      } catch (e) {
+        dateStr = val.date.toString();
+      }
+    }
 
     const newEv: TimelineEvent = {
       id: Date.now().toString(),
-      date: this.newDate(),
-      title: this.newTitle(),
-      location: 'Địa điểm lãng mạn 📍',
-      description: this.newDesc() || 'Kỷ niệm đẹp đáng nhớ!',
-      category: 'date',
+      date: dateStr,
+      title: val.title,
+      location: val.location || 'Địa điểm lãng mạn 📍',
+      description: val.description,
+      category: 'milestone',
       icon: 'heart',
-      color: '#ff4b72'
+      color: '#ff4b72',
+      photoUrl: val.photoUrl || undefined
     };
 
-    this.events.update((evs) => [newEv, ...evs]);
-    this.newTitle.set('');
-    this.newDate.set('');
-    this.newDesc.set('');
+    setTimeout(() => {
+      this.events.update((evs) => [newEv, ...evs]);
+      this.isSaving.set(false);
+      this.isModalVisible.set(false);
+      this.message.success('Đã lưu kỷ niệm ngọt ngào mới! 💕');
+    }, 600);
   }
 }
+
