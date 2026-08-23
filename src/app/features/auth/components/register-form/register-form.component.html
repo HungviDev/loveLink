@@ -66,12 +66,40 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="avatarErrorTpl">
-      <nz-input-group nzPrefixIcon="picture" class="custom-input-group">
-        <input type="text" nz-input formControlName="avatarUrl" placeholder="Đường dẫn ảnh đại diện (URL)" />
+    <nz-form-control [nzErrorTip]="connectionCodeErrorTpl">
+      <nz-input-group nzPrefixIcon="link" class="custom-input-group">
+        <input type="text" nz-input formControlName="connectionCode" placeholder="Mã kết nối (Tùy chọn)" />
       </nz-input-group>
+      <ng-template #connectionCodeErrorTpl let-control>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="avatarErrorTpl">
+      <div class="custom-file-upload">
+        <label for="avatarFile" class="file-label" [ngClass]="{'has-file': selectedFileUrl()}">
+          <ng-container *ngIf="isUploading(); else notUploadingTpl">
+            <nz-icon [nzType]="'loading'" /> Đang tải ảnh lên...
+          </ng-container>
+          <ng-template #notUploadingTpl>
+            <ng-container *ngIf="!selectedFileUrl(); else previewTpl">
+              <nz-icon nzType="picture" /> Chọn ảnh đại diện
+            </ng-container>
+            <ng-template #previewTpl>
+              <div class="image-preview-container">
+                <div class="image-preview">
+                  <img [src]="selectedFileUrl()" alt="Avatar preview" />
+                  <div class="change-overlay">Thay đổi ảnh</div>
+                </div>
+                <button type="button" class="remove-btn" (click)="removeImage($event)">×</button>
+              </div>
+            </ng-template>
+          </ng-template>
+        </label>
+        <input id="avatarFile" type="file" (change)="onFileChange($event)" accept="image/*" class="file-input" [disabled]="isUploading()" />
+      </div>
       <ng-template #avatarErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('pattern')">Đường dẫn không hợp lệ!</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>

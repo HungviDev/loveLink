@@ -7,10 +7,11 @@ export interface RegisterRequest {
   email: string;
   password: string;
   fullName: string;
-  avatarUrl?: string;
-  bio?: string;
-  gender?: number;
-  dateOfBirth?: string;
+  avatarUrl: string;
+  bio: string;
+  gender: number;
+  dateOfBirth: string;
+  pairCode: string;
 }
 
 export interface AuthState {

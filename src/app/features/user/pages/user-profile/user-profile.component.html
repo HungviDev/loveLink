@@ -1,0 +1,150 @@
+<div class="profile-container">
+  <!-- Profile Header Card -->
+  <div class="profile-card">
+    <button nz-button class="edit-btn" nzType="default" nzShape="circle" (click)="showEditModal()">
+      <nz-icon nzType="edit" nzTheme="outline" />
+    </button>
+    <div class="profile-cover"></div>
+    <div class="profile-info-section">
+      <div class="avatar-wrapper">
+        <nz-avatar [nzSrc]="user()?.avatarUrl || 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80'" [nzSize]="120" nzIcon="user"></nz-avatar>
+        <div class="status-indicator"></div>
+      </div>
+      
+      <div class="user-details">
+        <h1 class="user-name">{{ user()?.fullName || 'Tên người dùng' }}</h1>
+        <p class="user-email"><nz-icon nzType="mail" nzTheme="outline" /> {{ user()?.email || 'Chưa cập nhật email' }}</p>
+        
+        <div class="bio-box">
+          <nz-icon nzType="quote-left" nzTheme="outline" class="quote-icon" />
+          <p class="bio-text">{{ user()?.bio || 'Chưa có giới thiệu bản thân...' }}</p>
+          <nz-icon nzType="quote-right" nzTheme="outline" class="quote-icon" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Information Grid -->
+  <div class="details-grid">
+    <!-- Info Card 1: Basic Info -->
+    <div class="detail-card">
+      <h3 class="card-title"><nz-icon nzType="idcard" nzTheme="outline" /> Thông tin cá nhân</h3>
+      <div class="info-list">
+        <div class="info-item">
+          <span class="info-label">Ngày sinh</span>
+          <span class="info-value">
+            <nz-icon nzType="calendar" nzTheme="outline" /> 
+            {{ (user()?.dateOfBirth | date:'dd/MM/yyyy') || 'Chưa cập nhật' }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Giới tính</span>
+          <span class="info-value">
+            <nz-icon [nzType]="user()?.gender === 1 ? 'man' : (user()?.gender === 2 ? 'woman' : 'user')" nzTheme="outline" /> 
+            {{ getGenderLabel(user()?.gender) }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Trạng thái</span>
+          <span class="info-value">
+            <nz-tag [nzColor]="user()?.isActive ? 'success' : 'default'">
+              {{ user()?.isActive ? 'Đang hoạt động' : 'Chưa kích hoạt' }}
+            </nz-tag>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<nz-modal
+  [nzVisible]="isVisible()"
+  nzTitle="Chỉnh sửa thông tin cá nhân"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isSaving()"
+  nzOkText="Lưu thay đổi"
+  nzCancelText="Hủy"
+  nzCentered
+  [nzWidth]="500"
+  [nzBodyStyle]="{ padding: '24px 32px' }"
+  [nzWrapClassName]="'custom-edit-profile-modal'"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="editForm" nzLayout="vertical" class="edit-profile-form">
+      
+      <!-- Avatar Upload -->
+      <div class="avatar-upload-container">
+        <div class="avatar-preview">
+          <nz-avatar [nzSrc]="editForm.get('avatarUrl')?.value || 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80'" [nzSize]="90" nzIcon="user"></nz-avatar>
+          <div class="upload-overlay" (click)="fileInput.click()">
+            <nz-icon [nzType]="isUploading() ? 'loading' : 'camera'" nzTheme="outline" />
+          </div>
+        </div>
+        <input #fileInput type="file" (change)="onAvatarChange($event)" accept="image/*" hidden />
+        <span class="upload-hint">Nhấn vào ảnh để thay đổi</span>
+      </div>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Họ và tên</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập họ và tên (ít nhất 2 ký tự)">
+          <nz-input-group nzPrefixIcon="user" class="custom-input-group">
+            <input type="text" nz-input formControlName="fullName" placeholder="Họ và tên" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Email</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập email hợp lệ">
+          <nz-input-group nzPrefixIcon="mail" class="custom-input-group">
+            <input type="email" nz-input formControlName="email" placeholder="Email" readonly />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-row nzGutter="16">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Ngày sinh</nz-form-label>
+            <nz-form-control nzErrorTip="Vui lòng chọn ngày sinh">
+              <nz-date-picker formControlName="dateOfBirth" class="custom-date-picker" nzPlaceHolder="Ngày sinh"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Giới tính</nz-form-label>
+            <nz-form-control nzErrorTip="Vui lòng chọn giới tính">
+              <nz-select formControlName="gender" nzPlaceHolder="Giới tính" nzAllowClear class="custom-select">
+                <nz-option [nzValue]="1" nzLabel="Nam"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="Nữ"></nz-option>
+                <nz-option [nzValue]="0" nzLabel="Khác"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <nz-form-item>
+        <nz-form-label>Mã kết nối (Tùy chọn)</nz-form-label>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="link" class="custom-input-group">
+            <input type="text" nz-input formControlName="connectionCode" placeholder="Mã kết nối" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>Giới thiệu bản thân</nz-form-label>
+        <nz-form-control>
+          <nz-textarea-count [nzMaxCharacterCount]="100">
+            <textarea nz-input formControlName="bio" rows="3" placeholder="Giới thiệu bản thân..." class="custom-textarea"></textarea>
+          </nz-textarea-count>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+</nz-modal>

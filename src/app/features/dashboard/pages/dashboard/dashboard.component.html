@@ -36,8 +36,8 @@
     <div class="hero-card-content">
       <div class="couple-avatars-row">
         <div class="avatar-with-name">
-          <app-avatar [src]="currentUser().avatarUrl || null" [name]="currentUser().fullName || 'Alex'" size="large" status="success"></app-avatar>
-          <span class="avatar-name">{{ currentUser().fullName }}</span>
+          <app-avatar [src]="userAvatar()" [name]="userName()" size="large" status="success"></app-avatar>
+          <span class="avatar-name">{{ userName() }}</span>
           <span class="mood-tag-mini">{{ myMood().emoji }} {{ myMood().label }}</span>
         </div>
 
@@ -59,23 +59,27 @@
         <span class="since-date">Since February 14, 2023</span>
       </div>
 
-      <!-- Live Anniversary Countdown Timer -->
-      <div class="anniversary-live-countdown">
-        <span class="timer-label">⏰ Sắp tới Kỷ niệm 2 năm:</span>
-        <div class="timer-boxes">
-          <div class="t-box"><span class="num">{{ countdownDays() }}</span><span class="lbl">Days</span></div>
-          <span class="colon">:</span>
-          <div class="t-box"><span class="num">{{ countdownHours() }}</span><span class="lbl">Hrs</span></div>
-          <span class="colon">:</span>
-          <div class="t-box"><span class="num">{{ countdownMins() }}</span><span class="lbl">Mins</span></div>
-          <span class="colon">:</span>
-          <div class="t-box"><span class="num">{{ countdownSecs() }}</span><span class="lbl">Secs</span></div>
+      <!-- Upcoming Events List -->
+      <div class="upcoming-events-container">
+        <h3 class="events-heading">🗓️ Những sự kiện sắp tới</h3>
+        <div class="events-list">
+          @for (item of listEventUpcomming; track $index) {
+            <div class="event-item">
+              <div class="event-date-box">
+                <span class="event-date">{{ formatDateEvent(item.eventDate) }}</span>
+              </div>
+              <div class="event-details">
+                <span class="event-title">{{item.title}}</span>
+                <span class="event-desc">⏰ Lời nhắc: {{item.description}}</span>
+              </div>
+            </div>
+          }
         </div>
       </div>
 
       <div class="daily-love-quote">
         <span class="quote-icon">🥳</span>
-        <span class="quote-text">"In all the world, there is no heart for me like yours."</span>
+        <span class="quote-text">{{textCouple()}}</span>
       </div>
     </div>
   </div>
@@ -137,38 +141,18 @@
       <!-- Recent Milestones Card -->
       <app-card title="Recent Love Milestones" [hoverable]="false">
         <div class="milestones-list">
-          <div class="milestone-item">
+          @for (item of listAblum; track $index) {
+            <div class="milestone-item">
             <div class="milestone-icon trophy">
               <nz-icon nzType="trophy" nzTheme="fill" />
             </div>
             <div class="milestone-details">
-              <span class="milestone-title">1st Year Anniversary Celebration</span>
-              <span class="milestone-date">February 14, 2024 • Paris, France</span>
+              <span class="milestone-title">{{item.title}}</span>
+              <span class="milestone-date">{{formatDate(item.createdAt)}}</span>
             </div>
             <nz-tag nzColor="magenta">Celebrated 🥳</nz-tag>
           </div>
-
-          <div class="milestone-item">
-            <div class="milestone-icon house">
-              <nz-icon nzType="home" nzTheme="fill" />
-            </div>
-            <div class="milestone-details">
-              <span class="milestone-title">Moved into First Shared Apartment</span>
-              <span class="milestone-date">June 20, 2024</span>
-            </div>
-            <nz-tag nzColor="volcano">Milestone 🏠</nz-tag>
-          </div>
-
-          <div class="milestone-item">
-            <div class="milestone-icon trip">
-              <nz-icon nzType="environment" nzTheme="fill" />
-            </div>
-            <div class="milestone-details">
-              <span class="milestone-title">First Trip Together to Bali</span>
-              <span class="milestone-date">November 08, 2024</span>
-            </div>
-            <nz-tag nzColor="magenta">Memory ✈️</nz-tag>
-          </div>
+          }
         </div>
       </app-card>
 
@@ -236,7 +220,7 @@
           <span class="card-icon-title">Today's Heartbeat</span>
         </div>
         <p class="heartbeat-desc">
-          Sophia sent you a warm virtual hug 5 mins ago!
+          {{ partnerName() }} sent you a warm virtual hug 5 mins ago!
         </p>
 
         <button class="send-hug-btn" (click)="triggerVirtualHug()">

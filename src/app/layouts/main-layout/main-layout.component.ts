@@ -52,13 +52,14 @@ export class MainLayoutComponent implements OnInit{
   private UserProfileServiceService = inject(UserProfileServiceService);
   private CoupleServiceService = inject(CoupleServiceService);
   private router = inject(Router);
-
+  //info user
+  userProfile =signal<any>(null);
+  
   isCollapsed = signal<boolean>(false);
-  currentUser = this.authService.currentUser;
   activeTheme = this.themeService.activeTheme;
   isPaired = this.authService.isPaired;
 
-  showPairingModal = signal<boolean>(!this.authService.isPaired());
+  showPairingModal = signal<boolean>(false);
   userId: string ='';
   constructor() {
     this.router.events
@@ -69,11 +70,8 @@ export class MainLayoutComponent implements OnInit{
       });
   }
   ngOnInit(): void {
-    const token = this.CacheServiceService.getCache(AuthKeys.TOKEN);
-    if(token == null) {
-      this.router.navigate(['/auth/login']);
-    }
     this.checkUserIdCouple();
+    this.getProfile();
   }
 
   clearBadgeForUrl(url: string): void {
@@ -103,7 +101,7 @@ export class MainLayoutComponent implements OnInit{
   }
 
   logout(): void {
-    this.authService.logout();
+    this.CacheServiceService.removeCache(AuthKeys.TOKEN);
     this.router.navigate(['/auth/login']);
   }
 
@@ -114,34 +112,34 @@ export class MainLayoutComponent implements OnInit{
   clearAllBadges(): void {
     this.badgeService.resetAll();
   }
-  async checkUserIdCouple(){
-    this.UserProfileServiceService.getUserProfile().subscribe({
-      next: (res) => {
-        if(res.status === 200){
-          this.userId = res.data.userId;
-          this.checkUser(this.userId);
-        }
-      },
-      error: (err) => {
+   checkUserIdCouple() {
+  this.UserProfileServiceService.getPartnerProfile().subscribe({
+    next: (res) => {
+      if(res.status === 200) {
+        this.showPairingModal.set(false);
+      }
+    },
+    error: (err) => {
+      console.log(err);
+      if (err.status === 404 && err.error?.data === 'UsernotFoundCouple') {
+         this.showPairingModal.set(true);
+      } else {
+         this.showPairingModal.set(false);
       }
     }
-  )
-  }
-  checkUser(id: string){
-    this.CoupleServiceService.getUserProfile(id).subscribe({
+  });
+}
+  getProfile(){
+    this.UserProfileServiceService.getUserProfile().subscribe({
       next: (res) => {
-        if(res.status === 200){
-          if(res.data){
-            this.showPairingModal.set(false);
-          }
-          else{
-            this.showPairingModal.set(true);
-          }
+        if(res.status === 200) {
+          this.userProfile.set(res.data);
         }
       },
       error: (err) => {
-      }
-    })
+        console.log(err);
+    }})
   }
+ 
 }
 

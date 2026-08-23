@@ -193,50 +193,86 @@
       }
     }
 
-    /* Live Anniversary Countdown Timer */
-    .anniversary-live-countdown {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 20px;
+    /* Upcoming Events List */
+    .upcoming-events-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
-      background: rgba(0, 0, 0, 0.12);
+      padding: 16px 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
 
-      .timer-label {
-        font-size: 13px;
-        font-weight: 700;
+      .events-heading {
+        font-size: 14px;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0 0 12px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
-      .timer-boxes {
+      .events-list {
         display: flex;
-        align-items: center;
-        gap: 6px;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 180px;
+        overflow-y: auto;
 
-        .colon {
-          font-weight: 900;
-          opacity: 0.8;
+        /* Tùy chỉnh thanh cuộn cho danh sách sự kiện */
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 4px;
         }
 
-        .t-box {
+        .event-item {
           display: flex;
-          flex-direction: column;
           align-items: center;
-          background: rgba(255, 255, 255, 0.25);
-          padding: 2px 8px;
-          border-radius: 8px;
-          min-width: 36px;
+          gap: 12px;
+          background: rgba(0, 0, 0, 0.12);
+          padding: 10px 14px;
+          border-radius: 14px;
+          transition: all 0.2s ease;
 
-          .num {
-            font-size: 14px;
-            font-weight: 900;
-            line-height: 1.1;
+          &:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(4px);
           }
 
-          .lbl {
-            font-size: 9px;
-            text-transform: uppercase;
-            opacity: 0.85;
-            font-weight: 700;
+          .event-date-box {
+            background: linear-gradient(135deg, #ff8efa 0%, #ff4b72 100%);
+            padding: 6px 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            min-width: 65px;
+            text-align: center;
+
+            .event-date {
+              font-size: 12px;
+              font-weight: 900;
+              color: #ffffff;
+              line-height: 1.1;
+            }
+          }
+
+          .event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .event-title {
+              font-size: 14px;
+              font-weight: 700;
+              color: #ffffff;
+            }
+
+            .event-desc {
+              font-size: 11px;
+              opacity: 0.85;
+              color: white;
+            }
           }
         }
       }

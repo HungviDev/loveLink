@@ -7,21 +7,10 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   private http = inject(HttpClient);
-  private baseUrl = 'https://api.lovelink.app/v1';
+  private baseUrl = 'http://localhost:8080/api/auth';
 
-  get<T>(url: string, params?: HttpParams): Observable<T> {
-    return this.http.get<T>(`${this.baseUrl}/${url}`, { params });
+  getRefreshToken(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/refresh`);
   }
-
-  post<T>(url: string, body: any): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}/${url}`, body);
-  }
-
-  put<T>(url: string, body: any): Observable<T> {
-    return this.http.put<T>(`${this.baseUrl}/${url}`, body);
-  }
-
-  delete<T>(url: string): Observable<T> {
-    return this.http.delete<T>(`${this.baseUrl}/${url}`);
-  }
+  
 }

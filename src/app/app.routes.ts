@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -10,6 +11,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./layouts/main-layout/main-layout.component').then((m) => m.MainLayoutComponent),
     children: [
@@ -24,6 +26,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/couple/pages/couple-profile/couple-profile.component').then(
             (m) => m.CoupleProfileComponent
+          )
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/user/pages/user-profile/user-profile.component').then(
+            (m) => m.UserProfileComponent
           )
       },
       {

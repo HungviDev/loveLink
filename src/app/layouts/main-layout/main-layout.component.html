@@ -249,12 +249,12 @@
           </div>
         </nz-dropdown-menu>
 
-        @if (currentUser()) {
+        @if (userProfile()) {
         <div class="user-profile-menu" nz-dropdown [nzDropdownMenu]="userDropdown">
-          <app-avatar [src]="currentUser().avatarUrl || null" [name]="currentUser().fullName || 'User'" size="large"
+          <app-avatar [src]="userProfile().avatarUrl || null" [name]="userProfile().fullName || 'User'" size="large"
             status="success"></app-avatar>
           <div class="user-info-text">
-            <span class="user-name">{{ currentUser().fullName }}</span>
+            <span class="user-name">{{ userProfile().fullName }}</span>
             <span class="user-status-label">In a Relationship 💕</span>
           </div>
           <nz-icon nzType="down" class="dropdown-arrow" />
@@ -262,11 +262,11 @@
         }
         <nz-dropdown-menu #userDropdown="nzDropdownMenu">
           <ul nz-menu class="custom-user-dropdown">
-            <li nz-menu-item routerLink="/couple">
-              <nz-icon nzType="user" /> Partner Profile
+            <li nz-menu-item routerLink="/profile">
+              <nz-icon nzType="user" /> Thông tin cá nhân
             </li>
-            <li nz-menu-item (click)="openPairingModal()">
-              <nz-icon nzType="link" /> Mã kết nối đôi
+            <li nz-menu-item routerLink="/couple">
+              <nz-icon nzType="heart" /> Partner Profile
             </li>
             <li nz-menu-divider></li>
             <li nz-menu-item (click)="logout()" class="logout-item">

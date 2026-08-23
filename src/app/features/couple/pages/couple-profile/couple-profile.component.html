@@ -6,10 +6,10 @@
     <div class="hero-couple-header">
       
       <!-- User Profile Box -->
-      <div class="partner-card user-card">
-        <app-avatar [src]="currentUser().avatarUrl || null" [name]="currentUser().fullName || 'Alex'" size="large" status="success"></app-avatar>
+       <div class="partner-card user-card">
+        <app-avatar [src]="currentUser()?.avatarUrl || null" [name]="currentUser()?.fullName || 'Alex'" size="large" status="success"></app-avatar>
         <div class="partner-meta">
-          <span class="p-name">{{ currentUser().fullName }}</span>
+          <span class="p-name">{{ currentUser()?.fullName || 'Alex' }}</span>
           <span class="p-role">Nam chính 💕</span>
         </div>
       </div>
@@ -18,12 +18,12 @@
       <div class="union-heart-badge">
         <div class="heart-pulse-glow"></div>
         <nz-icon nzType="heart" nzTheme="fill" class="heart-icon" />
-        <span class="union-days">520 Đêm Bên Nhau</span>
+        <span class="union-days">{{together()}} Đêm Bên Nhau</span>
       </div>
 
       <!-- Partner Profile Box -->
       <div class="partner-card partner-card">
-        <app-avatar [src]="partnerAvatar()" [name]="partnerName()" size="large" status="success"></app-avatar>
+        <app-avatar [src]="partnerAvatar() || null" [name]="partnerName() || 'Alex'" size="large" status="success"></app-avatar>
         <div class="partner-meta">
           <span class="p-name">{{ partnerName() }}</span>
           <span class="p-role">Nữ chính 💕</span>
@@ -60,11 +60,21 @@
           </div>
           <div class="info-row">
             <span class="info-label">Ngày bắt đầu yêu:</span>
-            <span class="info-val">February 14, 2023 💖</span>
+            <span class="info-val">{{couple()?.relationshipStartDate}}</span>
           </div>
-          <div class="info-row">
-            <span class="info-label">Kỷ niệm tiếp theo:</span>
-            <span class="info-val">14 ngày nữa (2 năm) 🎂</span>
+          <div class="info-row" style="align-items: flex-start;">
+            <span class="info-label" style="margin-top: 4px;">Kỷ niệm tiếp theo:</span>
+            <div class="events-list" style="display: flex; flex-direction: column; gap: 8px;">
+              @for (item of listEventUpcomming; track $index) {
+                <div class="event-item" style="display: flex; align-items: center; gap: 8px;">
+                  <span class="info-val">{{ item.title }}</span>
+                  <nz-tag nzColor="orange">{{ formatDate(item.eventDate) }}</nz-tag>
+                </div>
+              }
+              @empty {
+                <span class="info-val" style="color: #999;">Chưa có kỷ niệm nào sắp tới 🎂</span>
+              }
+            </div>
           </div>
         </div>
       </app-card>
@@ -74,7 +84,7 @@
     <div class="grid-right">
       
       <!-- User Bio Card -->
-      <app-card title="👤 Giới thiệu về Alex" [hoverable]="false">
+      <app-card [title]="currentUser()?.fullName" [hoverable]="false">
         <div class="bio-card-content">
           <p class="bio-text">{{ userBio() }}</p>
           <div class="tags-group">
@@ -86,7 +96,7 @@
       </app-card>
 
       <!-- Partner Bio Card -->
-      <app-card title="🌸 Giới thiệu về Sophia" [hoverable]="false">
+      <app-card [title]="partnerUser()?.fullName" [hoverable]="false">
         <div class="bio-card-content">
           <p class="bio-text">{{ partnerBio() }}</p>
           <div class="tags-group">

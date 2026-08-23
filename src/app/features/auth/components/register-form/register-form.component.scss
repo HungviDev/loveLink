@@ -30,6 +30,115 @@
     border: 1px solid rgba(255, 200, 215, 0.7);
   }
 
+  .custom-file-upload {
+    display: flex;
+    align-items: center;
+    border: 1px dashed rgba(255, 200, 215, 1);
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #fdf5f7;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #ffe6eb;
+      border-color: #ff85a2;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-label {
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      color: #d84568;
+      font-weight: 500;
+      font-size: 14px;
+      
+      nz-icon {
+        margin-right: 8px;
+        font-size: 16px;
+      }
+
+      &.has-file {
+        padding: 0;
+        border-color: transparent;
+        background: transparent;
+      }
+    }
+
+    .image-preview-container {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      .image-preview {
+        position: relative;
+        width: 100%;
+        height: 120px;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          background-color: #f8f9fa;
+        }
+
+        .change-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.5);
+          color: white;
+          font-size: 12px;
+          padding: 4px;
+          text-align: center;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+
+        &:hover .change-overlay {
+          opacity: 1;
+        }
+      }
+
+      .remove-btn {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #ff4d4f;
+        color: white;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        transition: transform 0.2s;
+
+        &:hover {
+          transform: scale(1.1);
+          background-color: #ff7875;
+        }
+      }
+    }
+  }
+
   .submit-action {
     margin-top: 16px;
   }

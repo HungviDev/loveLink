@@ -6,6 +6,7 @@ import { User } from '../../../core/models/user.model';
 import { CacheServiceService } from '../../../core/services/CacheService.service';
 import { AuthKeys } from '../../../core/models/auth-keys.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +28,8 @@ export class AuthStore {
   login(credentials: LoginRequest): void {
     this.loading.set(true);
     this.error.set(null);
-    this.authFeatureService.login(credentials).subscribe({
+    this.authFeatureService.login(credentials).pipe(finalize(() => this.loading.set(false))).subscribe({
       next: (res: any) => {
-        this.loading.set(false);
         if(res.status === 200){
           this.user.set(res.user);
           this.router.navigate(['/dashboard']);
@@ -45,7 +45,6 @@ export class AuthStore {
         const errorMsg = err?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.';
         this.error.set(errorMsg);
         this.message.error(errorMsg);
-        this.loading.set(false);
       }
     });
   }
@@ -53,11 +52,10 @@ export class AuthStore {
   register(payload: RegisterRequest): void {
     this.loading.set(true);
     this.error.set(null);
-    this.authFeatureService.register(payload).subscribe({
+    this.authFeatureService.register(payload).pipe(finalize(() => this.loading.set(false))).subscribe({
       next: (res: any) => {
         if(res.status === 200){
           this.user.set(res.user);
-        this.loading.set(false);
         this.router.navigate(['/dashboard']);
         this.message.success('Đăng ký thành công!');
         }

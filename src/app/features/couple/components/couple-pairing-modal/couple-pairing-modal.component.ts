@@ -8,6 +8,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 import { AuthService } from '../../../../core/services/auth.service';
+import { CoupleServiceService } from '../../coupleService.service';
+import { UserProfileServiceService } from '../../../../layouts/UserProfileService.service';
 
 export type PairingStep = 'intro' | 'code' | 'success';
 
@@ -29,7 +31,8 @@ export type PairingStep = 'intro' | 'code' | 'success';
 export class CouplePairingModalComponent {
   private authService = inject(AuthService);
   private message = inject(NzMessageService);
-
+  private coupleService = inject(CoupleServiceService);
+  private UserProfileServiceService = inject(UserProfileServiceService);
   pairedSuccess = output<void>();
 
   isVisible = signal<boolean>(true);
@@ -39,7 +42,7 @@ export class CouplePairingModalComponent {
   errorMessage = signal<string | null>(null);
 
   myPairCode = this.authService.myPairCode;
-  partnerName = 'Sophia Miller';
+  partnerName = signal<string | null>(null);
 
   nextStep(): void {
     if (this.currentStep() === 'intro') {
@@ -62,24 +65,26 @@ export class CouplePairingModalComponent {
       this.errorMessage.set('Vui lòng nhập mã kết nối của người ấy!');
       return;
     }
-
-    this.isVerifying.set(true);
-    this.errorMessage.set(null);
-
-    this.authService.verifyPairCode(code).subscribe({
-      next: () => {
-        this.isVerifying.set(false);
-        this.currentStep.set('success');
+    this.coupleService.postCouple(code).subscribe({
+      next: (res: any) => {
+        if(res.status === 200){
+          this.currentStep.set('success');
+          this.isVerifying.set(false);
+        }
       },
       error: (err) => {
+        this.errorMessage.set(err.error.message);
+      },
+      complete: () => {
         this.isVerifying.set(false);
-        this.errorMessage.set(err.message || 'Mã kết nối không hợp lệ');
-      }
-    });
+    }});
+    
   }
 
   completePairing(): void {
     this.isVisible.set(false);
     this.pairedSuccess.emit();
   }
+
+
 }

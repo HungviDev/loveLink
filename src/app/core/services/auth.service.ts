@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
 import { User, AuthResponse } from '../models/user.model';
 import { LoginRequest, RegisterRequest } from '../../features/auth/models/auth.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,10 @@ export class AuthService {
   private readonly USER_KEY = 'lovelink_user';
   private readonly PAIRED_KEY = 'lovelink_paired';
   private http = inject(HttpClient);
+  private url: string = environment.apiUrl;
 
   constructor(
   ){
-    
   }
   private defaultUser: User = {
     id: 'u-101',
@@ -99,4 +100,6 @@ export class AuthService {
     const data = localStorage.getItem(this.PAIRED_KEY);
     return data !== null ? JSON.parse(data) : false; // Default to false to trigger onboarding dialog!
   }
+ 
+  
 }
