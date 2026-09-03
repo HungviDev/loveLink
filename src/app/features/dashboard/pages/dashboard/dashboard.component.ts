@@ -8,6 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { forkJoin } from 'rxjs';
 
 import { AuthService } from '../../../../core/services/auth.service';
@@ -62,6 +63,7 @@ interface UserInfo {
     NzIconModule,
     NzTagModule,
     NzTooltipModule,
+    NzButtonModule,
     AppCardComponent,
     AppStatCardComponent,
     AppAvatarComponent
@@ -75,6 +77,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   private message = inject(NzMessageService);
   private DashBoardServiceService = inject(DashBoardServiceService);
+  isPaired = signal<boolean>(true);
   listAblum: any =[];
   listEventUpcomming: any = [];
   currentUser = signal<UserInfo | undefined>(undefined);
@@ -217,6 +220,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.currentUser.set(res.profileUser.data);
         }
         if (res.coupleInfo) {
+          if(res.coupleInfo.message === 'GetCoupleInfoSuccess'){
+            this.isPaired.set(true);
+          }
           this.partner.set(res.coupleInfo.data);
         }
         if (res.moodaily && res.moodaily.status === 200) {
@@ -310,5 +316,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const year = now.getFullYear();
     return `${day}/${month}/${year}`;
   }
-
 }

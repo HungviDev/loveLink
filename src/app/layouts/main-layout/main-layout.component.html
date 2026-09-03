@@ -104,16 +104,28 @@
           }
         }
       </li>
+      <li nz-menu-item routerLink="/invitaion" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+          [nzTooltipTitle]="isCollapsed() ? 'Lời mời ghép đôi' : null" nzTooltipPlacement="right" nz-tooltip>
+        <nz-badge [nzCount]="badgeService.badges().invitations" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
+          <nz-icon nzType="user-add" nzTheme="outline" class="menu-nav-icon icon-invitation" />
+        </nz-badge>
+        @if (!isCollapsed()) {
+          <span class="menu-label-text">Lời mời ghép đôi</span>
+          @if (badgeService.badges().invitations > 0) {
+            <span class="menu-badge-pill pulse-glow">{{ badgeService.badges().invitations }}</span>
+          }
+        }
+      </li>
     </ul>
 
     @if (!isCollapsed()) {
-    <div class="sidebar-footer-card">
-      <nz-icon nzType="gift" nzTheme="fill" class="gift-icon" />
-      <div class="footer-card-text">
-        <span class="card-title">Next Anniversary</span>
-        <span class="card-sub">In 14 Days ❤️</span>
+      <div class="sidebar-footer-card">
+        <nz-icon nzType="gift" nzTheme="fill" class="gift-icon" />
+        <div class="footer-card-text">
+          <span class="card-title">Next Anniversary</span>
+          <span class="card-sub">In 14 Days ❤️</span>
+        </div>
       </div>
-    </div>
     }
   </nz-sider>
 
@@ -266,7 +278,10 @@
               <nz-icon nzType="user" /> Thông tin cá nhân
             </li>
             <li nz-menu-item routerLink="/couple">
-              <nz-icon nzType="heart" /> Partner Profile
+              <nz-icon nzType="heart" /> Thông tin bạn đời
+            </li>
+            <li nz-menu-item routerLink="/invitaion">
+              <nz-icon nzType="heart" /> Lời mời kết bạn
             </li>
             <li nz-menu-divider></li>
             <li nz-menu-item (click)="logout()" class="logout-item">

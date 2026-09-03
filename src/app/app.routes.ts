@@ -69,6 +69,13 @@ export const routes: Routes = [
           import('./features/calendar/pages/couple-calendar/couple-calendar.component').then(
             (m) => m.CoupleCalendarComponent
           )
+      },
+      {
+        path: 'invitaion',
+        loadComponent: () =>
+          import('./features/couple/components/pairing-invitations/pairing-invitations').then(
+            (m) => m.PairingInvitations
+          )
       }
     ]
   },

@@ -48,14 +48,15 @@ export class RegisterFormComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
     dateOfBirth: [null, [Validators.required]],
     gender: [null, [Validators.required]],
-    avatarFile: [null], // Form giờ sẽ lưu trữ URL ảnh trả về từ server
-    connectionCode: [''],
+    avatarUrl: [null], // Form giờ sẽ lưu trữ URL ảnh trả về từ server
+    pairCode: [null,[Validators.required]],
     bio: ['', [Validators.maxLength(100)]]
   });
 
   submitForm(): void {
     if (this.registerForm.valid) {
       const val = this.registerForm.value;
+      console.log(val);
       const formatted = {
         ...val,
         dateOfBirth: val.dateOfBirth
@@ -84,7 +85,7 @@ export class RegisterFormComponent {
           const uploadedUrl = response.data;
           this.selectedFileUrl.set(uploadedUrl);
           this.registerForm.patchValue({
-            avatarFile: uploadedUrl
+            avatarUrl: uploadedUrl
           });
           this.message.success('Upload ảnh thành công!');
         },
@@ -103,7 +104,7 @@ export class RegisterFormComponent {
     event.preventDefault();
     this.selectedFileUrl.set(null);
     this.registerForm.patchValue({
-      avatarFile: null
+      avatarUrl: null
     });
   }
 }

@@ -58,14 +58,10 @@ export class AuthStore {
           this.user.set(res.user);
         this.router.navigate(['/dashboard']);
         this.message.success('Đăng ký thành công!');
-        }
-        else{
-          this.message.error(res.message);
-        }
-        
+        }       
       },
       error: (err) => {
-        const errorMsg = err?.message || 'Đăng ký thất bại.';
+        const errorMsg = err?.error.message || 'Đăng ký thất bại.';
         this.error.set(errorMsg);
         this.message.error(errorMsg);
         this.loading.set(false);

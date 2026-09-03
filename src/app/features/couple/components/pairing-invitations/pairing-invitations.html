@@ -1,0 +1,58 @@
+<div class="invitations-container">
+  <nz-card class="invitations-card" [nzBordered]="false">
+    <div class="card-header">
+      <h2 nz-typography class="title">
+        <nz-icon nzType="heart" nzTheme="fill" class="heart-icon"></nz-icon>
+        Lời mời ghép đôi
+      </h2>
+      <p class="subtitle">Những người muốn kết nối với bạn</p>
+    </div>
+
+    @if (invitations.length === 0) {
+      <div class="empty-state">
+        <nz-icon nzType="inbox" nzTheme="outline" class="empty-icon"></nz-icon>
+        <p>Hiện tại chưa có lời mời ghép đôi nào.</p>
+      </div>
+    } @else {
+      <nz-list nzItemLayout="horizontal">
+        @for (item of invitations; track item.id) {
+          <nz-list-item class="invitation-item">
+            <nz-list-item-meta
+              [nzAvatar]="avatarTemplate"
+              [nzTitle]="titleTemplate"
+              [nzDescription]="descTemplate"
+            >
+              <ng-template #avatarTemplate>
+                <nz-avatar [nzSrc]="item.avatar" [nzSize]="54" class="user-avatar"></nz-avatar>
+              </ng-template>
+              <ng-template #titleTemplate>
+                <span class="user-name">{{ item.name }}</span>
+              </ng-template>
+              <ng-template #descTemplate>
+                <span class="time-text">
+                  <nz-icon nzType="clock-circle" nzTheme="outline"></nz-icon>
+                  {{ item.time }}
+                </span>
+              </ng-template>
+            </nz-list-item-meta>
+
+            <ul nz-list-item-actions>
+              <nz-list-item-action>
+                <button nz-button nzType="primary" class="accept-btn" (click)="acceptInvitation(item.id)">
+                  <nz-icon nzType="check"></nz-icon>
+                  Xác nhận
+                </button>
+              </nz-list-item-action>
+              <nz-list-item-action>
+                <button nz-button nzType="default" class="reject-btn" (click)="rejectInvitation(item.id)">
+                  <nz-icon nzType="close"></nz-icon>
+                  Từ chối
+                </button>
+              </nz-list-item-action>
+            </ul>
+          </nz-list-item>
+        }
+      </nz-list>
+    }
+  </nz-card>
+</div>

@@ -20,13 +20,27 @@
       <h1 class="page-title">Couple Dashboard 💕</h1>
       <p class="page-subtitle">Welcome back! Here is your shared love journey overview.</p>
     </div>
-    <div class="connection-status-badge">
-      <span class="status-dot-animated"></span>
-      <span>Connected & In Love</span>
+    <div style="display: flex; gap: 16px; align-items: center;">
+      @if (!isPaired()) {
+      <div style="background-color: #fff0f6; border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; gap: 12px; border: 1px solid #ffadd2; box-shadow: 0 4px 12px rgba(255,75,114,0.1);">
+        <div style="background: #ff4b72; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 16px;">
+          <nz-icon nzType="heart" nzTheme="fill" />
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 14px; font-weight: 600; color: #a8071a; margin-bottom: 4px;">Bạn chưa kết nối với ai đó!</span>
+          <button nz-button nzType="primary" nzShape="round" nzSize="small" routerLink="/invitaion" style="background-color: #ff4b72; border: none;">Ghép đôi ngay</button>
+        </div>
+      </div>
+      }
+      <div class="connection-status-badge">
+        <span class="status-dot-animated"></span>
+        <span>Connected & In Love</span>
+      </div>
     </div>
   </div>
 
   <!-- Romantic Hero Days Together Card -->
+  @if (isPaired()) {
   <div class="hero-couple-card">
     <div class="floating-heart heart-1">💖</div>
     <div class="floating-heart heart-2">🌸</div>
@@ -83,8 +97,10 @@
       </div>
     </div>
   </div>
+  }
 
   <!-- Interactive Couple Mood Switcher Bar -->
+  @if (isPaired()) {
   <div class="couple-mood-selector-card">
     <div class="card-title-row">
       <span class="selector-title">🥰 Hôm nay cảm xúc của bạn thế nào?</span>
@@ -104,6 +120,7 @@
       }
     </div>
   </div>
+  }
 
   <!-- Stat Cards Grid -->
   <div class="stat-cards-grid">
@@ -129,10 +146,10 @@
       unit="sent"
       icon="message"
       color="#3b82f6"
-    ></app-stat-card>
+    >    </app-stat-card>
   </div>
-
   <!-- Bottom Main Grid Section -->
+  @if (isPaired()) {
   <div class="dashboard-main-grid">
 
     <!-- Left Column: Love Milestones & Sticky Notes -->
@@ -231,5 +248,4 @@
 
     </div>
   </div>
-
-</div>
+  }

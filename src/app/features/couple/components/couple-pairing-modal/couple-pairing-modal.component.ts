@@ -86,5 +86,8 @@ export class CouplePairingModalComponent {
     this.pairedSuccess.emit();
   }
 
+  closeModal(): void {
+    this.isVisible.set(false);
+  }
 
 }

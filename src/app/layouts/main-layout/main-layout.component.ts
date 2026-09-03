@@ -9,6 +9,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { filter } from 'rxjs/operators';
 
 import { AuthService } from '../../core/services/auth.service';
@@ -36,6 +37,7 @@ import { CoupleServiceService } from '../../features/couple/coupleService.servic
     NzAvatarModule,
     NzTooltipModule,
     NzBadgeModule,
+    NzButtonModule,
     AppAvatarComponent,
     CouplePairingModalComponent,
     CoupleAiAssistantComponent
@@ -82,6 +84,7 @@ export class MainLayoutComponent implements OnInit{
     else if (url.includes('/chat')) this.badgeService.clearBadge('chat');
     else if (url.includes('/todo')) this.badgeService.clearBadge('todo');
     else if (url.includes('/calendar')) this.badgeService.clearBadge('calendar');
+    else if (url.includes('/invitaion')) this.badgeService.clearBadge('invitations');
   }
 
   toggleCollapsed(): void {

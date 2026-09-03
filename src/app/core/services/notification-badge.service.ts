@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 
-export type MenuBadgeKey = 'dashboard' | 'couple' | 'timeline' | 'album' | 'chat' | 'todo' | 'calendar';
+export type MenuBadgeKey = 'dashboard' | 'couple' | 'timeline' | 'album' | 'chat' | 'todo' | 'calendar' | 'invitations';
 
 export interface MenuBadgeState {
   dashboard: number;
@@ -10,6 +10,7 @@ export interface MenuBadgeState {
   chat: number;
   todo: number;
   calendar: number;
+  invitations: number;
 }
 
 @Injectable({
@@ -23,7 +24,8 @@ export class NotificationBadgeService {
     album: 5,
     chat: 3,
     todo: 4,
-    calendar: 1
+    calendar: 1,
+    invitations: 2
   });
 
   readonly badges = this.badgeState.asReadonly();
@@ -67,13 +69,14 @@ export class NotificationBadgeService {
       album: 0,
       chat: 0,
       todo: 0,
-      calendar: 0
+      calendar: 0,
+      invitations: 0
     });
   }
 
   // Helper method to add random new item for testing live updates
   simulateNewUpdate(): void {
-    const keys: MenuBadgeKey[] = ['timeline', 'album', 'chat', 'todo', 'calendar'];
+    const keys: MenuBadgeKey[] = ['timeline', 'album', 'chat', 'todo', 'calendar', 'invitations'];
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     this.incrementBadge(randomKey, 1);
   }

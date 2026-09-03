@@ -10,7 +10,9 @@ export class ApiService {
   private baseUrl = 'http://localhost:8080/api/auth';
 
   getRefreshToken(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/refresh`);
-  }
+  return this.http.post<any>(`${this.baseUrl}/refresh`, {},{
+    withCredentials: true
+  });
+}
   
 }

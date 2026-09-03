@@ -66,12 +66,10 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="connectionCodeErrorTpl">
+    <nz-form-control nzErrorTip="Vui lòng nhập mã kết nối !">
       <nz-input-group nzPrefixIcon="link" class="custom-input-group">
-        <input type="text" nz-input formControlName="connectionCode" placeholder="Mã kết nối (Tùy chọn)" />
+        <input type="text" nz-input formControlName="pairCode" placeholder="Mã kết nối" />
       </nz-input-group>
-      <ng-template #connectionCodeErrorTpl let-control>
-      </ng-template>
     </nz-form-control>
   </nz-form-item>
 

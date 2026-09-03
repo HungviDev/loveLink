@@ -1,0 +1,150 @@
+.invitations-container {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+
+  .invitations-card {
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(255, 75, 114, 0.1);
+
+    ::ng-deep .ant-card-body {
+      padding: 32px;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 32px;
+
+      .title {
+        color: #ff4b72;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        .heart-icon {
+          animation: pulse 2s infinite;
+        }
+      }
+
+      .subtitle {
+        color: #666;
+        font-size: 15px;
+        margin: 0;
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 0;
+      color: #999;
+
+      .empty-icon {
+        font-size: 48px;
+        color: #ffb6c1;
+        margin-bottom: 16px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+
+    .invitation-item {
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      background: white;
+      border: 1px solid #ffe6e6;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 75, 114, 0.08);
+      }
+
+      ::ng-deep .ant-list-item-meta {
+        align-items: center;
+      }
+
+      .user-avatar {
+        border: 2px solid #ff4b72;
+        padding: 2px;
+        background: white;
+      }
+
+      .user-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .time-text {
+        color: #888;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      ::ng-deep .ant-list-item-action {
+        margin-left: 24px;
+        
+        li {
+          padding: 0 4px;
+        }
+      }
+
+      .accept-btn {
+        background: #ff4b72;
+        border-color: #ff4b72;
+        border-radius: 20px;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(255, 75, 114, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0 20px;
+
+        &:hover {
+          background: #ff3360;
+          border-color: #ff3360;
+          transform: scale(1.05);
+        }
+      }
+
+      .reject-btn {
+        border-radius: 20px;
+        font-weight: 500;
+        color: #666;
+        border-color: #e8e8e8;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0 20px;
+
+        &:hover {
+          color: #ff4d4f;
+          border-color: #ff4d4f;
+          background: #fff1f0;
+        }
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

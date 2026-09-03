@@ -1,7 +1,8 @@
 <nz-modal
   [(nzVisible)]="isVisible"
   [nzFooter]="null"
-  [nzClosable]="false"
+  [nzClosable]="true"
+  (nzOnCancel)="closeModal()"
   [nzMaskClosable]="false"
   nzCentered
   nzWidth="540px"
