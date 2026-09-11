@@ -76,56 +76,71 @@
         padding: 2px;
         background: white;
       }
+      
+      .title-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 4px;
+      }
 
       .user-name {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 600;
         color: #333;
       }
 
-      .time-text {
-        color: #888;
-        font-size: 13px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
+      .time-tag {
+        border-radius: 12px;
+        border: none;
+        background: #fff0f6;
+        color: #eb2f96;
+        padding: 2px 10px;
+      }
+
+      .bio-text {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-top: 4px;
       }
 
       ::ng-deep .ant-list-item-action {
         margin-left: 24px;
         
         li {
-          padding: 0 4px;
+          padding: 0;
         }
+      }
+      
+      .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0 16px;
+        height: 36px;
+        border-radius: 18px;
+        transition: all 0.3s ease;
       }
 
       .accept-btn {
-        background: #ff4b72;
-        border-color: #ff4b72;
-        border-radius: 20px;
+        background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+        border: none;
         font-weight: 600;
-        box-shadow: 0 2px 8px rgba(255, 75, 114, 0.3);
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        padding: 0 20px;
+        box-shadow: 0 4px 10px rgba(255, 75, 114, 0.25);
 
         &:hover {
-          background: #ff3360;
-          border-color: #ff3360;
-          transform: scale(1.05);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 15px rgba(255, 75, 114, 0.35);
         }
       }
 
       .reject-btn {
-        border-radius: 20px;
         font-weight: 500;
-        color: #666;
-        border-color: #e8e8e8;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        padding: 0 20px;
+        color: #888;
+        border: 1px solid #e8e8e8;
+        background: white;
 
         &:hover {
           color: #ff4d4f;
@@ -134,7 +149,33 @@
         }
       }
     }
+    
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+      
+      ::ng-deep .ant-pagination-item-active {
+        border-color: #ff4b72;
+        background: #fff0f6;
+        
+        a {
+          color: #ff4b72;
+        }
+      }
+      
+      ::ng-deep .ant-pagination-item:hover {
+        border-color: #ff4b72;
+        a {
+          color: #ff4b72;
+        }
+      }
+    }
   }
+}
+:host ::ng-deep .ant-list-item-action{
+  display: flex;
+  gap: 10px;
 }
 
 @keyframes pulse {

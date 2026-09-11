@@ -100,7 +100,6 @@ export class CoupleProfileComponent implements OnInit {
       next: (res) => {
         if(res.status === 200){
           this.currentUser.set(res.data);
-          this.loveMotto.set(this.couple()?.loveMotto || 'null');
         }
       }
      })
@@ -119,6 +118,7 @@ export class CoupleProfileComponent implements OnInit {
       next: (res) => {
         if(res.status === 200){
           this.couple.set(res.data.couple);
+          this.loveMotto.set(this.couple()?.loveMotto || '');
         }
       }
     })
@@ -149,6 +149,21 @@ export class CoupleProfileComponent implements OnInit {
     );
     return diffDays;
   }
+  tranferGender(gender: any){
+    if(gender === 1){
+      return 'Nam';
+    }else{
+      return 'Nữ';
+    }
+  }
+  tranferPatnerGender(gender: any){
+    if(gender === 1){
+      return 'Nữ';
+    }else{
+      return 'Nam';
+    }
+  }
+
   
 
   

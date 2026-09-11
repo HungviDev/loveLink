@@ -8,12 +8,19 @@ export class CacheServiceService {
 
 constructor() { }
   setCache(key: string, value: any) {
-    localStorage.setItem(key, JSON.stringify(value));
+    const valueToStore = typeof value === 'string' ? value : JSON.stringify(value);
+    localStorage.setItem(key, valueToStore);
   }
 
   getCache(key: string) {
     const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : null;
+    if (!value) return null;
+    try {
+      return JSON.parse(value);
+    } catch (error) {
+      // Nếu parse lỗi -> nó là chuỗi bình thường (như token)
+      return value;
+    }
   }
 
   removeCache(key: string) {

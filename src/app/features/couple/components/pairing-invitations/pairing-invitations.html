@@ -8,14 +8,14 @@
       <p class="subtitle">Những người muốn kết nối với bạn</p>
     </div>
 
-    @if (invitations.length === 0) {
+    @if (listInvitations().length === 0) {
       <div class="empty-state">
         <nz-icon nzType="inbox" nzTheme="outline" class="empty-icon"></nz-icon>
         <p>Hiện tại chưa có lời mời ghép đôi nào.</p>
       </div>
     } @else {
       <nz-list nzItemLayout="horizontal">
-        @for (item of invitations; track item.id) {
+        @for (item of listInvitations(); track item.id) {
           <nz-list-item class="invitation-item">
             <nz-list-item-meta
               [nzAvatar]="avatarTemplate"
@@ -23,28 +23,28 @@
               [nzDescription]="descTemplate"
             >
               <ng-template #avatarTemplate>
-                <nz-avatar [nzSrc]="item.avatar" [nzSize]="54" class="user-avatar"></nz-avatar>
+                <nz-avatar [nzSrc]="item.sender.avatarUrl" [nzSize]="54" class="user-avatar"></nz-avatar>
               </ng-template>
               <ng-template #titleTemplate>
-                <span class="user-name">{{ item.name }}</span>
+                <span class="user-name">{{ item.sender.fullName }}</span>
               </ng-template>
               <ng-template #descTemplate>
                 <span class="time-text">
                   <nz-icon nzType="clock-circle" nzTheme="outline"></nz-icon>
-                  {{ item.time }}
+                  {{ formatDate(item.sender.createdAt)}}
                 </span>
               </ng-template>
             </nz-list-item-meta>
 
             <ul nz-list-item-actions>
               <nz-list-item-action>
-                <button nz-button nzType="primary" class="accept-btn" (click)="acceptInvitation(item.id)">
+                <button nz-button nzType="primary" class="accept-btn" (click)="acceptInvitation(item.idInvitation)">
                   <nz-icon nzType="check"></nz-icon>
                   Xác nhận
                 </button>
               </nz-list-item-action>
               <nz-list-item-action>
-                <button nz-button nzType="default" class="reject-btn" (click)="rejectInvitation(item.id)">
+                <button nz-button nzType="default" class="reject-btn" (click)="rejectInvitation(item.idInvitation)">
                   <nz-icon nzType="close"></nz-icon>
                   Từ chối
                 </button>
@@ -52,6 +52,15 @@
             </ul>
           </nz-list-item>
         }
+            <div *ngIf="paging().total > 10" class="pagination-container">
+            <nz-pagination 
+              [nzPageIndex]="paging().page" 
+              [nzTotal]="paging().total" 
+              [nzPageSize]="paging().pageSize"
+              (nzPageIndexChange)="onPageIndexChange($event)"
+             >
+            </nz-pagination>
+          </div>
       </nz-list>
     }
   </nz-card>

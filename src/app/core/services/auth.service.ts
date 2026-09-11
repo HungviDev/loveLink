@@ -5,6 +5,9 @@ import { delay, tap } from 'rxjs/operators';
 import { User, AuthResponse } from '../models/user.model';
 import { LoginRequest, RegisterRequest } from '../../features/auth/models/auth.model';
 import { environment } from '../../../environments/environment';
+import { jwtDecode } from 'jwt-decode';
+import { CacheServiceService } from './CacheService.service';
+import { AuthKeys } from '../models/auth-keys.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +17,9 @@ export class AuthService {
   private readonly USER_KEY = 'lovelink_user';
   private readonly PAIRED_KEY = 'lovelink_paired';
   private http = inject(HttpClient);
+  private cacheService = inject(CacheServiceService);
   private url: string = environment.apiUrl;
+
 
   constructor(
   ){
@@ -80,6 +85,17 @@ export class AuthService {
     this.isPaired.set(false);
   }
 
+   getUser() : any{
+    const jwt = this.cacheService.getCache(AuthKeys.TOKEN);
+    if (!jwt) {
+      return null;
+    }
+    const user = jwtDecode(jwt);
+    return user;
+  }
+
+
+
   private setSession(token: string, user: User): void {
     localStorage.setItem(this.TOKEN_KEY, token);
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
@@ -100,6 +116,7 @@ export class AuthService {
     const data = localStorage.getItem(this.PAIRED_KEY);
     return data !== null ? JSON.parse(data) : false; // Default to false to trigger onboarding dialog!
   }
- 
+
+
   
 }

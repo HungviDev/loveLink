@@ -10,7 +10,7 @@
         <app-avatar [src]="currentUser()?.avatarUrl || null" [name]="currentUser()?.fullName || 'Alex'" size="large" status="success"></app-avatar>
         <div class="partner-meta">
           <span class="p-name">{{ currentUser()?.fullName || 'Alex' }}</span>
-          <span class="p-role">Nam chính 💕</span>
+          <span class="p-role">{{tranferGender(currentUser()?.gender)}} chính 💕</span>
         </div>
       </div>
 
@@ -26,7 +26,7 @@
         <app-avatar [src]="partnerAvatar() || null" [name]="partnerName() || 'Alex'" size="large" status="success"></app-avatar>
         <div class="partner-meta">
           <span class="p-name">{{ partnerName() }}</span>
-          <span class="p-role">Nữ chính 💕</span>
+          <span class="p-role">{{tranferPatnerGender(currentUser()?.gender)}} chính 💕</span>
         </div>
       </div>
 

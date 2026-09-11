@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class UserProfileServiceService {
   private http = inject(HttpClient);
   private url: string = environment.apiUrl;
-
+  
   constructor() { }
 
   getUserProfile(): Observable<any> {

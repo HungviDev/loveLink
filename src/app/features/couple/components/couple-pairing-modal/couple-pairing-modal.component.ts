@@ -10,6 +10,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from '../../../../core/services/auth.service';
 import { CoupleServiceService } from '../../coupleService.service';
 import { UserProfileServiceService } from '../../../../layouts/UserProfileService.service';
+import { finalize } from 'rxjs';
 
 export type PairingStep = 'intro' | 'code' | 'success';
 
@@ -60,25 +61,18 @@ export class CouplePairingModalComponent {
   }
 
   verifyCode(): void {
-    const code = this.pairCodeInput();
-    if (!code || code.trim().length === 0) {
-      this.errorMessage.set('Vui lòng nhập mã kết nối của người ấy!');
+    this.isVerifying.set(true);
+    let user = this.authService.getUser();
+    if (!user) {
+      this.message.error('Không thể lấy thông tin người dùng!');
+      this.isVerifying.set(false);
       return;
     }
-    this.coupleService.postCouple(code).subscribe({
-      next: (res: any) => {
-        if(res.status === 200){
-          this.currentStep.set('success');
-          this.isVerifying.set(false);
-        }
-      },
-      error: (err) => {
-        this.errorMessage.set(err.error.message);
-      },
-      complete: () => {
-        this.isVerifying.set(false);
-    }});
-    
+    const payload  = {
+      pairCode: this.pairCodeInput(),
+      receiverId: user.userinfo.userId
+    }
+    this.updateInvitation(payload);
   }
 
   completePairing(): void {
@@ -88,6 +82,21 @@ export class CouplePairingModalComponent {
 
   closeModal(): void {
     this.isVisible.set(false);
+  }
+  updateInvitation(payload: any){
+    this.coupleService.postCouple(payload).pipe(
+      finalize(() => this.isVerifying.set(false))
+    ).subscribe({
+      next: (res) => {
+        if(res.status === 200){
+          this.message.success('Đã gửi lời mời');
+          this.isVisible.set(false);
+        }
+      },
+      error: (err) => {
+        this.message.error(err.error.message);
+      }
+    })
   }
 
 }

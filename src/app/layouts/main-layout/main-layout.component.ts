@@ -1,5 +1,5 @@
 import { CacheServiceService } from './../../core/services/CacheService.service';
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -21,6 +21,7 @@ import { CoupleAiAssistantComponent } from '../../shared/ui/couple-ai-assistant/
 import { AuthKeys } from '../../core/models/auth-keys.model';
 import { UserProfileServiceService } from '../UserProfileService.service';
 import { CoupleServiceService } from '../../features/couple/coupleService.service';
+import { DashBoardServiceService } from '../../features/dashboard/DashBoardService.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -71,6 +72,7 @@ export class MainLayoutComponent implements OnInit{
         this.clearBadgeForUrl(url);
       });
   }
+
   ngOnInit(): void {
     this.checkUserIdCouple();
     this.getProfile();
@@ -123,11 +125,9 @@ export class MainLayoutComponent implements OnInit{
       }
     },
     error: (err) => {
-      console.log(err);
       if (err.status === 404 && err.error?.data === 'UsernotFoundCouple') {
          this.showPairingModal.set(true);
-      } else {
-         this.showPairingModal.set(false);
+         this.CoupleServiceService.setValue(true);
       }
     }
   });

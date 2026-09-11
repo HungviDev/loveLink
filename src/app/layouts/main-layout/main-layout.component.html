@@ -20,7 +20,8 @@
     </div>
 
     <ul nz-menu nzMode="inline" class="side-menu">
-      <li nz-menu-item routerLink="/dashboard" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+      @if(showPairingModal() === false) {
+        <li nz-menu-item routerLink="/dashboard" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
           [nzTooltipTitle]="isCollapsed() ? 'Dashboard' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().dashboard" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="appstore" nzTheme="fill" class="menu-nav-icon icon-dashboard" />
@@ -104,7 +105,9 @@
           }
         }
       </li>
-      <li nz-menu-item routerLink="/invitaion" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
+      }
+      @else {
+        <li nz-menu-item routerLink="/invitaion" routerLinkActive="ant-menu-item-selected" class="menu-nav-item"
           [nzTooltipTitle]="isCollapsed() ? 'Lời mời ghép đôi' : null" nzTooltipPlacement="right" nz-tooltip>
         <nz-badge [nzCount]="badgeService.badges().invitations" [nzOverflowCount]="99" class="menu-icon-badge" nzSize="small">
           <nz-icon nzType="user-add" nzTheme="outline" class="menu-nav-icon icon-invitation" />
@@ -116,17 +119,8 @@
           }
         }
       </li>
+      }
     </ul>
-
-    @if (!isCollapsed()) {
-      <div class="sidebar-footer-card">
-        <nz-icon nzType="gift" nzTheme="fill" class="gift-icon" />
-        <div class="footer-card-text">
-          <span class="card-title">Next Anniversary</span>
-          <span class="card-sub">In 14 Days ❤️</span>
-        </div>
-      </div>
-    }
   </nz-sider>
 
   <nz-layout class="inner-layout">

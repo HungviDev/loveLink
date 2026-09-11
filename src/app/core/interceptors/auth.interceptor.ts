@@ -11,12 +11,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const apiService = inject(ApiService);
   const token = cacheService.getCache(AuthKeys.TOKEN);
   const headers: Record<string, string> = {};
-  if(token){
+  
+  if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
-  if(!(req.body  instanceof FormData)){
+  
+  // Chỉ set Content-Type là application/json khi request có body và body không phải FormData
+  if (req.body !== null && !(req.body instanceof FormData)) {
     headers['Content-Type'] = 'application/json';
   }
+  
   req = req.clone({ setHeaders: headers });
 
    return next(req).pipe(
@@ -24,18 +28,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 400) {
         console.log('Request không hợp lệ');
       }
-      if (error.status === 401) {
-      // Dùng return và switchMap thay vì subscribe
+      
+      // Kiểm tra 401 và ngăn chặn vòng lặp vô tận nếu api refresh cũng bị 401
+      if (error.status === 401 && !req.url.includes('/api/auth/refresh')) {
       return apiService.getRefreshToken().pipe(
         switchMap((res: any) => {
           if (res.status === 200) {
-            // Lưu token mới
             cacheService.setCache(AuthKeys.TOKEN, res.data);
-            // Gắn token mới vào request CŨ
             const newReq = req.clone({ 
               setHeaders: { 'Authorization': `Bearer ${res.data}` } 
             });
-            // THỰC THI LẠI request cũ với token mới
             return next(newReq); 
           }
           return throwError(() => error);

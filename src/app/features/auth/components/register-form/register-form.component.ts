@@ -48,8 +48,8 @@ export class RegisterFormComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
     dateOfBirth: [null, [Validators.required]],
     gender: [null, [Validators.required]],
-    avatarUrl: [null], // Form giờ sẽ lưu trữ URL ảnh trả về từ server
-    pairCode: [null,[Validators.required]],
+    avatarFile: [null], // Form giờ sẽ lưu trữ URL ảnh trả về từ server
+    pairCode: [''],
     bio: ['', [Validators.maxLength(100)]]
   });
 

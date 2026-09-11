@@ -41,7 +41,17 @@ import {
   CloseCircleFill,
   LoadingOutline,
   SendOutline,
-  CloseOutline
+  CloseOutline,
+  UserAddOutline,
+  BellOutline,
+  PlusCircleOutline,
+  CompassOutline,
+  PictureOutline,
+  MailOutline,
+  LockOutline,
+  InboxOutline,
+  EditOutline,
+  DeleteOutline
 } from '@ant-design/icons-angular/icons';
 
 import { routes } from './app.routes';
@@ -83,7 +93,17 @@ const icons = [
   CloseCircleFill,
   LoadingOutline,
   SendOutline,
-  CloseOutline
+  CloseOutline,
+  UserAddOutline,
+  BellOutline,
+  PlusCircleOutline,
+  CompassOutline,
+  PictureOutline,
+  MailOutline,
+  LockOutline,
+  InboxOutline,
+  EditOutline,
+  DeleteOutline
 ];
 
 export const appConfig: ApplicationConfig = {
