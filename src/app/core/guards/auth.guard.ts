@@ -9,8 +9,15 @@ export const authGuard: CanActivateFn = (route, state) => {
   const token = cacheService.getCache(AuthKeys.TOKEN);
 
   if (token) {
+    if (state.url.includes('/auth/login') || state.url.includes('/auth/register')) {
+      router.navigate(['/dashboard']);
+      return false;
+    }
     return true;
   } else {
+    if (state.url.includes('/auth/login') || state.url.includes('/auth/register')) {
+       return true;
+    }
     router.navigate(['/auth/login']);
     return false;
   }

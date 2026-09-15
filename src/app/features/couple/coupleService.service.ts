@@ -40,5 +40,11 @@ export class CoupleServiceService {
   setValue(value: boolean): void {
     this.invitationSignal.set(value);
   }
+  getUserSingle(params?: any): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}/users/single`,{
+        params:params
+      })
+  }
 
 }

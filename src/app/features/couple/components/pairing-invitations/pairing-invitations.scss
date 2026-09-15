@@ -1,191 +1,420 @@
-.invitations-container {
+.dating-layout {
+  width: 1800px;
   padding: 24px;
-  max-width: 800px;
-  margin: 0 auto;
+  background-color: #fafbfc;
+  min-height: 100vh;
+}
 
-  .invitations-card {
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(255, 75, 114, 0.1);
+/* Banner */
+.hero-banner {
+  border-radius: 16px;
+  height: 280px;
+  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1000&auto=format&fit=crop') center/cover;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 40px;
+  color: white;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 
-    ::ng-deep .ant-card-body {
-      padding: 32px;
-    }
-
-    .card-header {
-      text-align: center;
-      margin-bottom: 32px;
-
-      .title {
+  .banner-content {
+    max-width: 500px;
+    
+    h1 {
+      color: white;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      
+      .heart-icon {
         color: #ff4b72;
-        font-weight: 700;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-
-        .heart-icon {
-          animation: pulse 2s infinite;
-        }
-      }
-
-      .subtitle {
-        color: #666;
-        font-size: 15px;
-        margin: 0;
-      }
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 48px 0;
-      color: #999;
-
-      .empty-icon {
-        font-size: 48px;
-        color: #ffb6c1;
-        margin-bottom: 16px;
-      }
-
-      p {
-        font-size: 16px;
-      }
-    }
-
-    .invitation-item {
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      background: white;
-      border: 1px solid #ffe6e6;
-      transition: all 0.3s ease;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 75, 114, 0.08);
-      }
-
-      ::ng-deep .ant-list-item-meta {
-        align-items: center;
-      }
-
-      .user-avatar {
-        border: 2px solid #ff4b72;
-        padding: 2px;
-        background: white;
-      }
-      
-      .title-container {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 4px;
-      }
-
-      .user-name {
-        font-size: 18px;
-        font-weight: 600;
-        color: #333;
-      }
-
-      .time-tag {
-        border-radius: 12px;
-        border: none;
-        background: #fff0f6;
-        color: #eb2f96;
-        padding: 2px 10px;
-      }
-
-      .bio-text {
-        color: #666;
-        font-size: 14px;
-        line-height: 1.5;
-        margin-top: 4px;
-      }
-
-      ::ng-deep .ant-list-item-action {
-        margin-left: 24px;
-        
-        li {
-          padding: 0;
-        }
-      }
-      
-      .action-btn {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 0 16px;
-        height: 36px;
-        border-radius: 18px;
-        transition: all 0.3s ease;
-      }
-
-      .accept-btn {
-        background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
-        border: none;
-        font-weight: 600;
-        box-shadow: 0 4px 10px rgba(255, 75, 114, 0.25);
-
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 15px rgba(255, 75, 114, 0.35);
-        }
-      }
-
-      .reject-btn {
-        font-weight: 500;
-        color: #888;
-        border: 1px solid #e8e8e8;
-        background: white;
-
-        &:hover {
-          color: #ff4d4f;
-          border-color: #ff4d4f;
-          background: #fff1f0;
-        }
       }
     }
     
-    .pagination-container {
+    p {
+      font-size: 15px;
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+    
+    .start-btn {
+      background: linear-gradient(135deg, #ff4b72, #ff758c);
+      border: none;
+      color: white;
+      border-radius: 24px;
+      padding: 0 24px;
+      height: 44px;
+      font-weight: 600;
       display: flex;
-      justify-content: center;
-      margin-top: 24px;
+      align-items: center;
+      gap: 8px;
       
-      ::ng-deep .ant-pagination-item-active {
-        border-color: #ff4b72;
-        background: #fff0f6;
-        
-        a {
-          color: #ff4b72;
-        }
+      &:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  
+  .filter-item {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s;
+    
+    &:hover {
+      background: #fdf2f5;
+      color: #ff4b72;
+      border-color: #ffb6c1;
+    }
+    
+    &.active {
+      background: #fff0f6;
+      color: #ff4b72;
+      border-color: #ff4b72;
+      font-weight: 500;
+    }
+  }
+}
+
+/* Profile Cards */
+.scrollable-invitations {
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+
+  /* Tùy chỉnh thanh cuộn */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+}
+
+.profile-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+
+  .card-image-wrap {
+    position: relative;
+    height: 220px;
+    
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .online-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: #52c41a;
+        border-radius: 50%;
+      }
+    }
+
+    .like-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+  }
+
+  .card-info {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      
+      .name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2c3e50;
       }
       
-      ::ng-deep .ant-pagination-item:hover {
-        border-color: #ff4b72;
-        a {
+      .verify-icon {
+        color: #1890ff;
+        font-size: 14px;
+      }
+    }
+
+    .meta-info, .sub-info {
+      font-size: 13px;
+      color: #8c8c8c;
+      margin-bottom: 4px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+      margin-bottom: 16px;
+      
+      .tag {
+        font-size: 11px;
+        background: #f5f5f5;
+        color: #666;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px dashed #f0f0f0;
+
+      .action-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        background: white;
+
+        &.reject {
+          color: #999;
+          &:hover { color: #ff4d4f; transform: scale(1.1); }
+        }
+
+        &.accept {
           color: #ff4b72;
+          &:hover { 
+            background: #ff4b72;
+            color: white;
+            transform: scale(1.1); 
+          }
+        }
+        
+        &.sent {
+          color: white;
+          background: #ff4b72;
+          &:hover { 
+            background: #ff758c;
+            transform: scale(1.1); 
+          }
         }
       }
     }
   }
 }
-:host ::ng-deep .ant-list-item-action{
-  display: flex;
-  gap: 10px;
+
+/* Sidebar Widgets */
+.sidebar-widget {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+
+  .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0;
+      color: #333;
+    }
+
+    .view-all {
+      font-size: 13px;
+      color: #888;
+      &:hover { color: #ff4b72; }
+    }
+  }
+
+  .suggestion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      .sug-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      
+      .sug-info {
+        flex: 1;
+        .sug-name { font-weight: 600; font-size: 14px; color: #333; }
+        .sug-meta { font-size: 12px; color: #888; }
+      }
+      
+      .add-btn {
+        background: #fff0f6;
+        color: #ff4b72;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        &:hover { background: #ffe6e6; }
+      }
+    }
+  }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
+.premium-widget {
+  background: linear-gradient(135deg, #fff0f6, #ffe6eb);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #ffb6c1;
+
+  .crown-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
   }
-  50% {
-    transform: scale(1.15);
+
+  h3 {
+    color: #c41d7f;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
   }
-  100% {
-    transform: scale(1);
+
+  p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+
+  .premium-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    text-align: left;
+    
+    li {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      .check-icon { color: #ff4b72; }
+    }
+  }
+
+  .upgrade-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #ff4b72, #ff758c);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 75, 114, 0.3);
+    &:hover { opacity: 0.9; }
+  }
+}
+
+.security-widget {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+
+  .sec-icon {
+    font-size: 32px;
+    color: #1890ff;
+  }
+
+  .sec-text {
+    h4 { margin: 0 0 4px 0; font-weight: 600; font-size: 15px; }
+    p { margin: 0; font-size: 12px; color: #888; }
   }
 }

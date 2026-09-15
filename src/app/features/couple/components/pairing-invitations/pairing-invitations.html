@@ -1,67 +1,157 @@
-<div class="invitations-container">
-  <nz-card class="invitations-card" [nzBordered]="false">
-    <div class="card-header">
-      <h2 nz-typography class="title">
-        <nz-icon nzType="heart" nzTheme="fill" class="heart-icon"></nz-icon>
-        Lời mời ghép đôi
-      </h2>
-      <p class="subtitle">Những người muốn kết nối với bạn</p>
-    </div>
-
-    @if (listInvitations().length === 0) {
-      <div class="empty-state">
-        <nz-icon nzType="inbox" nzTheme="outline" class="empty-icon"></nz-icon>
-        <p>Hiện tại chưa có lời mời ghép đôi nào.</p>
+<div class="dating-layout">
+  <nz-row [nzGutter]="[24, 24]">
+    <!-- Cột trái: Nội dung chính -->
+    <nz-col [nzXs]="24" [nzLg]="16">
+      
+      <!-- Banner nổi bật -->
+      <div class="hero-banner">
+        <div class="banner-content">
+          <h1>Kết nối những trái tim<br>cùng chung nhịp đập <nz-icon nzType="heart" nzTheme="fill" class="heart-icon"></nz-icon></h1>
+          <p>Tìm kiếm người bạn đồng hành, chia sẻ những khoảnh khắc đẹp nhất trong cuộc sống.</p>
+          <button nz-button class="start-btn">Bắt đầu ngay <nz-icon nzType="arrow-right" nzTheme="outline"></nz-icon></button>
+        </div>
       </div>
-    } @else {
-      <nz-list nzItemLayout="horizontal">
-        @for (item of listInvitations(); track item.id) {
-          <nz-list-item class="invitation-item">
-            <nz-list-item-meta
-              [nzAvatar]="avatarTemplate"
-              [nzTitle]="titleTemplate"
-              [nzDescription]="descTemplate"
-            >
-              <ng-template #avatarTemplate>
-                <nz-avatar [nzSrc]="item.sender.avatarUrl" [nzSize]="54" class="user-avatar"></nz-avatar>
-              </ng-template>
-              <ng-template #titleTemplate>
-                <span class="user-name">{{ item.sender.fullName }}</span>
-              </ng-template>
-              <ng-template #descTemplate>
-                <span class="time-text">
-                  <nz-icon nzType="clock-circle" nzTheme="outline"></nz-icon>
-                  {{ formatDate(item.sender.createdAt)}}
-                </span>
-              </ng-template>
-            </nz-list-item-meta>
 
-            <ul nz-list-item-actions>
-              <nz-list-item-action>
-                <button nz-button nzType="primary" class="accept-btn" (click)="acceptInvitation(item.idInvitation)">
-                  <nz-icon nzType="check"></nz-icon>
-                  Xác nhận
-                </button>
-              </nz-list-item-action>
-              <nz-list-item-action>
-                <button nz-button nzType="default" class="reject-btn" (click)="rejectInvitation(item.idInvitation)">
-                  <nz-icon nzType="close"></nz-icon>
-                  Từ chối
-                </button>
-              </nz-list-item-action>
-            </ul>
-          </nz-list-item>
-        }
-            <div *ngIf="paging().total > 10" class="pagination-container">
-            <nz-pagination 
-              [nzPageIndex]="paging().page" 
-              [nzTotal]="paging().total" 
-              [nzPageSize]="paging().pageSize"
-              (nzPageIndexChange)="onPageIndexChange($event)"
-             >
-            </nz-pagination>
+      <!-- Thanh bộ lọc (Filters) -->
+      <div class="filter-bar">
+        <button class="filter-item active"><nz-icon nzType="appstore" /> Tất cả</button>
+        <button class="filter-item"><nz-icon nzType="environment" /> Gần bạn</button>
+        <button class="filter-item"><nz-icon nzType="user" /> Online</button>
+        <button class="filter-item"><nz-icon nzType="woman" /> Nữ</button>
+        <button class="filter-item"><nz-icon nzType="man" /> Nam</button>
+        <button class="filter-item"><nz-icon nzType="check-circle" /> Đã xác thực</button>
+      </div>
+      <div  class="scrollable-invitations">
+           <nz-row [nzGutter]="[16, 16]" class="">
+        @for (item of mockInvitations(); track item.userId) {
+  <nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8">
+    <div class="profile-card">
+
+      <div class="card-image-wrap">
+        <img
+          [src]="item.avatarUrl"
+          [alt]="item.fullName"
+          class="profile-img"
+        />
+
+        @if (item.isActive) {
+          <div class="online-badge">
+            <div class="dot"></div>
+            Active
           </div>
-      </nz-list>
-    }
-  </nz-card>
+        }
+
+        @if (item.isVerified) {
+          <div class="like-badge">
+            <nz-icon nzType="check-circle" nzTheme="fill" />
+          </div>
+        }
+      </div>
+
+      <div class="card-info">
+
+        <div class="name-row">
+          <span class="name">{{ item.fullName }}</span>
+
+          @if (item.isVerified) {
+            <nz-icon
+              nzType="check-circle"
+              nzTheme="fill"
+              class="verify-icon"
+            />
+          }
+        </div>
+
+        <div class="meta-info">
+          {{ calculateAge(item.dateOfBirth) }} tuổi
+        </div>
+
+        <div class="sub-info">
+          {{ item.bio }}
+        </div>
+
+        <div class="action-buttons">
+          <button
+            class="action-btn reject"
+            (click)="rejectInvitation(item)"
+          >
+            <nz-icon nzType="close" />
+          </button>
+
+          <button
+            class="action-btn accept"
+            (click)="acceptInvitation(item)"
+            *ngIf="!item.isSent"
+          >
+            <nz-icon nzType="heart" nzTheme="fill" />
+          </button>
+          
+          <button
+            class="action-btn sent"
+            (click)="revokeInvitation(item)"
+            *ngIf="item.isSent"
+          >
+            <nz-icon nzType="check" nzTheme="outline" />
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </nz-col>
+}
+      </nz-row>
+      </div>
+      <!-- Danh sách thẻ hồ sơ (Grid Layout) -->
+   
+    </nz-col>
+
+    <!-- Cột phải: Sidebar -->
+    <nz-col [nzXs]="24" [nzLg]="8">
+      
+      <!-- Gợi ý kết bạn -->
+      <div class="sidebar-widget">
+        <div class="widget-header">
+          <h3>Những người có thể bạn sẽ thích</h3>
+          <a class="view-all">Xem thêm →</a>
+        </div>
+        <div class="suggestion-list">
+          @for (sug of mockSuggestions(); track sug.id) {
+            <div class="suggestion-item">
+              <img [src]="sug.sender.avatarUrl" alt="" class="sug-avatar">
+              <div class="sug-info">
+                <div class="sug-name">{{ sug.sender.fullName }}</div>
+                <div class="sug-meta">{{sug.bio}}</div>
+              </div>
+              <button (click)="acceptInvitationUser(sug)" class="add-btn"><nz-icon nzType="plus" /> Kết bạn</button>
+              <button (click)="rejectInvitationUser(sug)" class="add-btn"><nz-icon nzType="plus" /> Xóa</button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Khối quảng cáo Premium -->
+      <div class="premium-widget">
+        <div class="crown-icon">👑</div>
+        <h3>Nâng cấp tài khoản Premium</h3>
+        <p>Mở khóa nhiều tính năng hấp dẫn để kết nối tốt hơn!</p>
+        <ul class="premium-features">
+          <li><nz-icon nzType="check" class="check-icon" /> Xem ai đã thích bạn</li>
+          <li><nz-icon nzType="check" class="check-icon" /> Gửi tin nhắn không giới hạn</li>
+          <li><nz-icon nzType="check" class="check-icon" /> Xem danh sách người đã xem</li>
+          <li><nz-icon nzType="check" class="check-icon" /> Ưu tiên hiển thị hồ sơ của bạn</li>
+        </ul>
+        <button class="upgrade-btn">Nâng cấp ngay →</button>
+      </div>
+
+      <!-- Cam kết bảo mật -->
+      <div class="security-widget">
+        <nz-icon nzType="safety-certificate" nzTheme="outline" class="sec-icon"></nz-icon>
+        <div class="sec-text">
+          <h4>An toàn & Bảo mật</h4>
+          <p>Chúng tôi luôn bảo vệ thông tin cá nhân của bạn.</p>
+        </div>
+      </div>
+
+    </nz-col>
+  </nz-row>
 </div>

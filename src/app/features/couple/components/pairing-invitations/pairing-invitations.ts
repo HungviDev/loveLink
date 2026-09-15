@@ -1,30 +1,26 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CoupleServiceService } from '../../coupleService.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-export interface Paging {
-  page: number;
-  pageSize: number;
-  total: number;
-}
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { AuthService } from '../../../../core/services/auth.service';
+
 @Component({
   selector: 'app-pairing-invitations',
+  standalone: true,
   imports: [
     CommonModule,
-    NzListModule,
-    NzAvatarModule,
     NzButtonModule,
     NzIconModule,
     NzCardModule,
     NzTypographyModule,
-    NzPaginationModule
+    NzGridModule,
+    NzAvatarModule
   ],
   templateUrl: './pairing-invitations.html',
   styleUrl: './pairing-invitations.scss'
@@ -32,67 +28,109 @@ export interface Paging {
 export class PairingInvitations implements OnInit {
   private coupleService = inject(CoupleServiceService);
   private message = inject(NzMessageService);
-  listInvitations = signal<any[]>([]);
-  paging = signal<Paging>({
-    page: 0,
-    pageSize: 10,
-    total: 0
-  })
-
-  constructor() { }
+  private authService = inject(AuthService);
+  idUser = signal<any>(null);
+  // Fake Data dựa theo ảnh
+  mockInvitations = signal<any[]>([]);
+  mockSuggestions = signal<any[]>([]);
+  constructor() {
+    let user = this.authService.getUser();
+    this.idUser.set(user.userinfo.userId);
+   }
 
   ngOnInit(): void {
-    this.getAllCoupleInvitations(this.paging());
+    this.getListSuggestion();
+    this.getListUser();
   }
-  acceptInvitation(id: string): void {
-    this.updateStatus(id,'ACCEPTED');
-    this.coupleService.setValue(false);
-  }
-  rejectInvitation(id: string): void {
-    this.updateStatus(id,'REJECTED');
-  }
-  formatDate(date: string): string {
-    const d = new Date(date);
-    return `${d.getHours()}:${d.getMinutes()} - ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-  }
-  getAllCoupleInvitations(paging: Paging){
-    let param  = {
-      page: paging.page,
-      size: paging.pageSize
-    };
-    this.coupleService.getAllInvatation(param).subscribe({
-      next: (data) => {
-        if(data){
-          this.listInvitations.set(data.data);
-          this.paging().total = data.meta.totalElements;
-        }
-      },
-      error: (error) => {
-        this.message.error('Không thể tải được danh sách lời mời');
-        console.log(error);
-      }
-    })
-  }
-  onPageIndexChange(event: any){
-    this.paging().page = event;
-    this.getAllCoupleInvitations(this.paging());
-  }
-  updateStatus(idInvitation: string, status: string){
+
+  acceptInvitation(item: any): void {
     const payload = {
-      status: status,
-      IdInvitation: idInvitation
+      pairCode: item.pairCode,
+      receiverId: this.idUser()
     }
-    this.coupleService.updateStatusInvitation(payload).subscribe({
-      next: (data) => {
-        if(data){
-          this.message.success('Cập nhật thành công');
-          this.getAllCoupleInvitations(this.paging());
-        }
+    this.coupleService.postCouple(payload).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.message.success('Đã gửi lời mời ghép đôi');
+        item.isSent = true;
       },
-      error: (error) => {
-        this.message.error('Không thể cập nhật được trạng thái');
-        console.log(error);
+      error: (err) => {
+        this.message.error(err.error.message);
       }
     })
+  }
+
+  revokeInvitation(item: any): void {
+    // TODO: Gọi API thu hồi lời mời
+    item.isSent = false;
+    this.message.success('Đã thu hồi lời mời ghép đôi');
+  }
+
+  rejectInvitationUser(item: any): void {
+    const param = {
+      status : 'REJECTED',
+      idInvitation: item.idInvitation
+    }
+    this.coupleService.updateStatusInvitation(param).subscribe({
+      next: (res) => {
+        if(res.status === 200){
+          this.message.success('Từ chối lời mời ghép đôi thành công!');
+          this.getListSuggestion();
+        }
+      },
+      error: (err) => {
+        this.message.error("Kết bạn thất bại");
+      }
+    })
+  }
+  getListUser(){
+    const param = {
+    }
+    
+    this.coupleService.getUserSingle(param).subscribe({
+      next: (res) => {
+        this.mockInvitations.set(res.data)
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+  getListSuggestion(){
+    const param = {
+    }
+    this.coupleService.getAllInvatation(param).subscribe({
+      next: (res) => {
+        this.mockSuggestions.set(res.data)
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+  calculateAge(date: string){
+    const dateAge = new Date(date);
+    return new Date().getFullYear() - dateAge.getFullYear();
+  }
+  acceptInvitationUser(item: any){
+    console.log(item);
+    const param = {
+      status : 'ACCEPTED',
+      idInvitation: item.idInvitation
+    }
+    this.coupleService.updateStatusInvitation(param).subscribe({
+      next: (res) => {
+        if(res.status === 200){
+          this.message.success("Kết bạn thành công");
+          this.getListSuggestion();
+        }
+      },
+      error: (err) => {
+        this.message.error("Kết bạn thất bại");
+      }
+    })
+  }
+  rejectInvitation(item: any){
+
   }
 }
