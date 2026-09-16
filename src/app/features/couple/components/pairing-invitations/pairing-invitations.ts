@@ -9,6 +9,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { AuthService } from '../../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pairing-invitations',
@@ -29,6 +30,7 @@ export class PairingInvitations implements OnInit {
   private coupleService = inject(CoupleServiceService);
   private message = inject(NzMessageService);
   private authService = inject(AuthService);
+  private router = inject(Router);
   idUser = signal<any>(null);
   // Fake Data dựa theo ảnh
   mockInvitations = signal<any[]>([]);
@@ -123,6 +125,8 @@ export class PairingInvitations implements OnInit {
         if(res.status === 200){
           this.message.success("Kết bạn thành công");
           this.getListSuggestion();
+          this.router.navigate(['/dashboard']);
+          this.coupleService.setValue(false);
         }
       },
       error: (err) => {

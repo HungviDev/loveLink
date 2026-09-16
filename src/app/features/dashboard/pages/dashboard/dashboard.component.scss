@@ -673,3 +673,19 @@
   0% { transform: scale(0.9); opacity: 0.8; }
   100% { transform: scale(1.6); opacity: 0; }
 }
+@media (max-width: 768px) {
+  .couple-mood-selector-card{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    .mood-chips-group{
+      display: flex;
+    flex-wrap: wrap;
+    }
+  }
+  .stat-cards-grid{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+}

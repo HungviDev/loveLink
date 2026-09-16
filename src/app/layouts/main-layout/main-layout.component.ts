@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CacheServiceService } from './../../core/services/CacheService.service';
 import { Component, ChangeDetectionStrategy, signal, inject, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -55,6 +56,7 @@ export class MainLayoutComponent implements OnInit{
   private UserProfileServiceService = inject(UserProfileServiceService);
   private CoupleServiceService = inject(CoupleServiceService);
   private router = inject(Router);
+  private breakpoint = inject(BreakpointObserver);
   //info user
   userProfile =signal<any>(null);
   
@@ -71,11 +73,29 @@ export class MainLayoutComponent implements OnInit{
         const url = event.urlAfterRedirects || event.url;
         this.clearBadgeForUrl(url);
       });
+
+    effect(() => {
+      const status = this.CoupleServiceService.invitation();
+      if(status == false){
+        this.showPairingModal.set(false);
+      }
+      else{
+        this.showPairingModal.set(true);
+      }
+    });
   }
 
   ngOnInit(): void {
     this.checkUserIdCouple();
     this.getProfile();
+    this.breakpoint.observe(['(max-width: 768px)']).subscribe((res) => {
+      if(res.matches){
+        this.isCollapsed.set(true);
+      }
+      else{
+        this.isCollapsed.set(false);
+      }
+    })
   }
 
   clearBadgeForUrl(url: string): void {
@@ -107,7 +127,7 @@ export class MainLayoutComponent implements OnInit{
 
   logout(): void {
     this.CacheServiceService.removeCache(AuthKeys.TOKEN);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   simulateNewUpdate(): void {
@@ -128,6 +148,7 @@ export class MainLayoutComponent implements OnInit{
       if (err.status === 404 && err.error?.data === 'UsernotFoundCouple') {
          this.showPairingModal.set(true);
          this.CoupleServiceService.setValue(true);
+         this.router.navigate(['invitaion']);
       }
     }
   });

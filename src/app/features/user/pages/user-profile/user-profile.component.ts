@@ -183,6 +183,7 @@ export class UserProfileComponent implements OnInit {
           this.isVisible.set(false);
           this.isSaving.set(false);
           this.fetchProfileData();
+          window.location.reload();
         }
       },
       error: (err) => {

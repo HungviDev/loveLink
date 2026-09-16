@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 export class CoupleServiceService {
   private http = inject(HttpClient);
   private url: string = environment.apiUrl;
-  private invitationSignal = signal<boolean>(false);
+  public invitationSignal = signal<boolean>(true);
 
   invitation = this.invitationSignal.asReadonly();
   constructor() { }
@@ -32,9 +32,6 @@ export class CoupleServiceService {
   updateStatusInvitation(body: any): Observable<any> {
     return this.http.post<any>(
       `${this.url}/couple-invitations/invitations/status`,body)
-  }
-  getCurrentValue(): boolean {
-    return this.invitationSignal();
   }
 
   setValue(value: boolean): void {

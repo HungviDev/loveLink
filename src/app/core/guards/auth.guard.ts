@@ -2,12 +2,13 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { CacheServiceService } from '../services/CacheService.service';
 import { AuthKeys } from '../models/auth-keys.model';
+import { CoupleServiceService } from '../../features/couple/coupleService.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const cacheService = inject(CacheServiceService);
   const router = inject(Router);
   const token = cacheService.getCache(AuthKeys.TOKEN);
-
+  const CoupleService = inject(CoupleServiceService);
   if (token) {
     if (state.url.includes('/auth/login') || state.url.includes('/auth/register')) {
       router.navigate(['/dashboard']);
